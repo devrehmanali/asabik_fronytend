@@ -1,0 +1,15 @@
+@import "./utils";
+// Required
+@import "/node_modules/bootstrap/scss/functions";
+
+// Default variable overrides
+@import "./variables";
+
+// Required
+@import "/node_modules/bootstrap/scss/variables";
+@import "/node_modules/bootstrap/scss/mixins";
+
+// Optional Bootstrap components here
+@import "/node_modules/bootstrap/scss/grid";
+@import "/node_modules/bootstrap/scss/progress";
+@import "/node_modules/bootstrap/scss/bootstrap-utilities.scss";

@@ -1,0 +1,11 @@
+<div class="app-container">
+  <h1 class="heading-bold text-dark mb-4">Confirm your email!</h1>
+  <p class="mb-4">
+    To complete the registration process please check your inbox:
+    <span class="text-secondary"> {{ email }}</span>
+  </p>
+  <p class="mb-7">Email not received?</p>
+  <app-button [disabled]="buttonDisabled" (click)="sendAgain()" class="mb-3"
+    >Send again</app-button
+  >
+</div>

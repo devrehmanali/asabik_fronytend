@@ -1,0 +1,21 @@
+<nav>
+  <div class="menu-wraper">
+    <ui-icon
+      role="button"
+      (click)="drawer.toggle()"
+      [type]="icon.Menu"
+    ></ui-icon>
+  </div>
+  <div class="logo-wraper">
+    <img src="../../../../assets/img/asabik-logo.svg" class="logo" />
+  </div>
+  <div class="menu-wraper justify-content-end">
+    <a [routerLink]="[link.BusinessOwnerProfile]" routerLinkActive="active">
+      <ui-icon
+        [type]="icon.Close"
+        *ngIf="currentRoute === link.PreviewBusinessOwnerProfile"
+        (click)="goBack()"
+      ></ui-icon>
+    </a>
+  </div>
+</nav>

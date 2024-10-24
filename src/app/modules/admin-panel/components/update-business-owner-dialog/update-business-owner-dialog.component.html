@@ -1,0 +1,10 @@
+<form [formGroup]="form" class="card text-left" (submit)="update()">
+  <h3 class="text-light">Update Business Owner</h3>
+  <app-input formControlName="companyName" label="Company name*"></app-input>
+  <app-input formControlName="ownerName" label="Owner's name"></app-input>
+  <app-input formControlName="street" label="Street*"></app-input>
+  <app-input formControlName="city" label="City*"></app-input>
+  <app-input formControlName="zipCode" label="Zip code*"></app-input>
+  <app-input formControlName="phone" label="Business phone"></app-input>
+  <app-button [compact]="true">Save</app-button>
+</form>

@@ -1,0 +1,22 @@
+<div class="modal__container">
+  <div class="modal__img">
+    <img src="../../../../assets/img/asabik-logo.svg" />
+  </div>
+  <h2 class="modal__text">
+    Are you sure you want to delete your business owner account?
+  </h2>
+  <div class="modal__buttons-container">
+    <app-button
+      [color]="buttonColor.Secondary"
+      class="btn-light modal__button"
+      (click)="deleteBuisnessOwner()"
+      >Delete
+    </app-button>
+    <app-button
+      [color]="buttonColor.Light"
+      class="btn-light modal__button"
+      (click)="closeModal()"
+      >Close
+    </app-button>
+  </div>
+</div>

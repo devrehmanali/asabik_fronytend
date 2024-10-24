@@ -1,0 +1,9 @@
+@use "sass:map";
+@import "./vendor/bootstrap/variables";
+
+@function getSpacers($left: null, $top: null, $right: null, $bottom: null) {
+  @return (
+    map.get($spacers, $left) map.get($spacers, $top) map.get($spacers, $right)
+      map.get($spacers, $bottom)
+  );
+}

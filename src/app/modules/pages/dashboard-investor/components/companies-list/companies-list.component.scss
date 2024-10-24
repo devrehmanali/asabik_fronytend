@@ -1,0 +1,52 @@
+:host {
+  display: flex;
+  flex-direction: column;
+
+  .input__container {
+    display: flex;
+    align-items: center;
+  }
+
+  .input__form {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    gap: 10px;
+    position: relative;
+  }
+
+  .input__wrapper {
+    display: flex;
+    align-items: center;
+    flex: 1;
+  }
+
+  .icon__search {
+    position: absolute;
+    left: 340px;
+    bottom: 20px;
+    color: rgb(191, 191, 191);
+    pointer-events: none;
+    height: 42px;
+  }
+
+  .icon__form {
+    border: 1px rgb(225, 223, 223) solid;
+    color: rgb(191, 191, 191);
+    padding: 5px;
+    height: 42px;
+    width: 42px;
+    border-radius: 5px;
+    margin-bottom: 31px;
+    cursor: pointer;
+    // box-shadow: 0px 12px 38px rgba(0, 0, 0, 0.1);
+  }
+
+  .companies {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+    gap: 25px;
+    margin-top: 20px;
+  }
+}

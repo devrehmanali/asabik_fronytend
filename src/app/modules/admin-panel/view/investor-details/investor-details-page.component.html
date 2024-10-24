@@ -1,0 +1,355 @@
+<div [ngClass]="{ loading: loading }">
+  <!-- ------------------------------- HEADING ------------------------------- -->
+  <div class="d-flex justify-content-between mb-5">
+    <div class="align-items-center gap-5">
+      <div class="d-flex gap-2">
+        <h1 class="heading-bold">{{ investor.fullName }}</h1>
+        <ng-container *ngIf="iconType">
+          <ui-icon
+            (click)="blockInvestor()"
+            class="mt-2"
+            [type]="iconType"
+          ></ui-icon>
+        </ng-container>
+      </div>
+      <span class="body-regular text-light">Investor</span>
+    </div>
+  </div>
+
+  <!-- ------------------------------- STATUS -------------------------------- -->
+  <div class="d-flex mb-5 gap-4">
+    <mat-chip
+      [ngClass]="{
+        'bg-secondary': !investor.isActive,
+        'bg-success': investor.isActive
+      }"
+    >
+      <p class="text-white">
+        {{ investor.isActive ? "Active" : "Inactive" }}
+      </p>
+    </mat-chip>
+    <mat-chip
+      [ngClass]="{
+        bg: !investor.isBlocked,
+        'bg-danger': investor.isBlocked
+      }"
+      (click)="blockInvestor()"
+    >
+      <p [ngClass]="{ 'text-white': investor.isBlocked }">
+        {{ investor.isBlocked ? "Blocked" : "Block" }}
+      </p>
+    </mat-chip>
+  </div>
+
+  <!-- ------------------------------- INFO 1 -------------------------------- -->
+  <div class="justify-content-between mb-7" [ngClass]="{ loading: saveing }">
+    <div class="d-flex justify-content-between mb-7 details__data">
+      <div>
+        <h5 class="text-primary">Registration Date</h5>
+        <p>{{ investor.registrationDate | date : "shortDate" }}</p>
+      </div>
+      <div>
+        <h5 class="text-primary">Contact Details</h5>
+        <p>{{ investor.email }}</p>
+      </div>
+      <div>
+        <h5 class="text-primary">Company Name</h5>
+        <p>{{ investor.companyName ?? "-" }}</p>
+      </div>
+      <div>
+        <h5 class="text-primary">Website</h5>
+        <p>{{ investor.website ?? "-" }}</p>
+      </div>
+      <div>
+        <h5 class="text-primary">Total investments</h5>
+        <p>{{ investor.totalInvestments | currency }}</p>
+      </div>
+      <div>
+        <app-button
+          [compact]="true"
+          (click)="openUpdateDialog()"
+          [icon]="Icon.Edit"
+          >Edit</app-button
+        >
+      </div>
+    </div>
+
+    <!-- ------------------------------- INFO identity -------------------------------- -->
+    <div class="d-flex justify-content-between details__identity mb-7">
+      <div>
+        <h5 class="text-black">Extracted Name</h5>
+        <p>{{ investor.extractedIdentity?.extractedName ?? "-" }}</p>
+      </div>
+      <div>
+        <h5 class="text-black">Extracted Phone</h5>
+        <p>{{ investor.extractedIdentity?.extractedPhone ?? "-" }}</p>
+      </div>
+      <div>
+        <h5 class="text-black">Extracted Email</h5>
+        <p>{{ investor.extractedIdentity?.extractedEmail ?? "-" }}</p>
+      </div>
+      <div>
+        <h5 class="text-black">Extracted Address</h5>
+        <p>{{ investor.extractedIdentity?.extractedAddress?.street ?? "-" }}</p>
+        <div class="d-flex justify-content-center">
+          <p>
+            {{
+              investor.extractedIdentity?.extractedAddress?.city ?? "-"
+            }},&nbsp;
+          </p>
+
+          <p>
+            {{ investor.extractedIdentity?.extractedAddress?.zipCode ?? "-" }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- -------------------------- TABLE Investments -------------------------- -->
+  <p class="text-light mb-3">Investments</p>
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>User ID</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.businessOwnerId }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="companyName">
+        <th mat-header-cell *matHeaderCellDef>Company Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.companyName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="ownerName">
+        <th mat-header-cell *matHeaderCellDef>Profile</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-chip
+            [routerLink]="[
+              Link.AdminPanelBusinessOwnerDetails(element.businessOwnerId)
+            ]"
+            (mouseenter)="onMouseEnter(element.businessOwnerId)"
+            (mouseleave)="onMouseLeave(element.businessOwnerId)"
+            [ngClass]="{
+              'bg-primary': !mouseOverStates.get(element.businessOwnerId),
+              'bg-light': mouseOverStates.get(element.businessOwnerId)
+            }"
+          >
+            <p
+              [ngClass]="{
+                'text-white': !mouseOverStates.get(element.businessOwnerId)
+              }"
+            >
+              {{ element.businessOwnersName }}
+            </p>
+          </mat-chip>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="sector">
+        <th mat-header-cell *matHeaderCellDef>Sector</th>
+        <td mat-cell *matCellDef="let element">{{ element.businessSector }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="requiredInvestment">
+        <th mat-header-cell *matHeaderCellDef>Required Investment</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.requiredInvestment | currency }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="alreadyInvested">
+        <th mat-header-cell *matHeaderCellDef>Already Invested</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.alreadyInvested | currency }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="isActive">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-chip
+            [ngClass]="{
+              'bg-danger': !element.isActive,
+              'bg-success': element.isActive
+            }"
+          >
+            <p class="text-white">
+              {{ element.isActive ? "Active" : "Inactive" }}
+            </p>
+          </mat-chip>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="installments">
+        <th mat-header-cell *matHeaderCellDef>Installments</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-chip
+            [ngClass]="{
+              'bg-light': currentButton !== element,
+              'bg-primary': currentButton === element,
+              'bg-disabled': !element.isLoan
+            }"
+            (click)="element.isLoan && viewInstallments(element)"
+          >
+            <p [ngClass]="{ 'text-white': currentButton === element }">
+              {{ element.isLoan ? "View Installments" : "Not available" }}
+            </p>
+          </mat-chip>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 15, 20]"
+      showFirstLastButtons
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
+  </div>
+
+  <!-- ------------------------ INSTALLMENTS DETAILS ------------------------- -->
+  <p class="text-primary mb-3 mt-7" *ngIf="showInstallmentsDetails">
+    Investment Request ID - {{ currentInvestmentRequestId }}
+  </p>
+  <div
+    class="d-flex justify-content-between mb-7 details__data"
+    *ngIf="showInstallmentsDetails"
+  >
+    <div>
+      <h5 class="text-primary">Declared MonthlyProfit</h5>
+      <p>{{ installmentsInvestmentRequest?.declaredProfitToShare }} USD</p>
+    </div>
+    <div>
+      <h5 class="text-primary">Raised Funds</h5>
+      <p>{{ installmentsInvestmentRequest?.raisedFunds }} USD</p>
+    </div>
+    <div>
+      <h5 class="text-primary">Invested</h5>
+      <p>{{ installmentsInvestmentRequest?.invested }} USD</p>
+    </div>
+    <div>
+      <h5 class="text-success">Invested Percentage</h5>
+      <p>{{ installmentsInvestmentRequest?.investedPercentage }}</p>
+    </div>
+  </div>
+
+  <!-- ------------------------- TABLE INSTALLMENTS -------------------------- -->
+  <div class="mat-elevation-z8 mb-7" *ngIf="showInstallmentsDetails">
+    <table mat-table [dataSource]="dataSourceInstallments">
+      <ng-container matColumnDef="no">
+        <th mat-header-cell *matHeaderCellDef>No</th>
+        <td mat-cell *matCellDef="let element" class="text-primary">
+          {{ element.no }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="paymentDate">
+        <th mat-header-cell *matHeaderCellDef>Payment Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.paymentDate }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="totalNetProfit">
+        <th mat-header-cell *matHeaderCellDef>Total Net Profit</th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [ngClass]="{
+            'text-secondary':
+              element.installmentData.inflowDescription ||
+              element.installmentData.outflowDescription != null,
+            '':
+              element.installmentData.inflowDescription ||
+              element.installmentData.outflowDescription == null
+          }"
+          (mouseenter)="showTooltip = true"
+          (mouseleave)="showTooltip = false"
+        >
+          {{ element.totalNetProfit }}
+          <div class="tooltip">
+            <div
+              *ngIf="
+                showTooltip && element.installmentData.inflowDescription != null
+              "
+            >
+              {{ element.installmentData.inflowDescription }}
+            </div>
+            <br />
+            <div
+              *ngIf="
+                showTooltip &&
+                element.installmentData.outflowDescription != null
+              "
+            >
+              {{ element.installmentData.outflowDescription }}
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="profitToShare">
+        <th mat-header-cell *matHeaderCellDef>Profit To Share</th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [ngClass]="{
+            'text-danger': element.installmentData.profitToShareInfo != null,
+            'text-success': element.installmentData.profitToShareInfo == null
+          }"
+          (mouseenter)="showTooltip = true"
+          (mouseleave)="showTooltip = false"
+        >
+          {{ element.profitToShare }}
+          <div
+            class="tooltip_profitToShare"
+            *ngIf="
+              showTooltip && element.installmentData.profitToShareInfo != null
+            "
+          >
+            {{ element.installmentData.profitToShareInfo }}
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="transfer">
+        <th mat-header-cell *matHeaderCellDef>Transfer</th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [ngClass]="{
+            'text-danger': element.installmentData.profitToShareInfo != null,
+            'text-success': element.installmentData.profitToShareInfo == null
+          }"
+          (mouseenter)="showTooltip = true"
+          (mouseleave)="showTooltip = false"
+        >
+          {{ element.transfer }}
+          <div
+            class="tooltip_profitToShare"
+            *ngIf="
+              showTooltip && element.installmentData.profitToShareInfo != null
+            "
+          >
+            {{ element.installmentData.profitToShareInfo }}
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsInstallments"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumnsInstallments"
+      ></tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 15, 20]"
+      showFirstLastButtons
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
+  </div>
+</div>

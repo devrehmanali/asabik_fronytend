@@ -1,0 +1,10 @@
+<input [name]="name" type="radio" [value]="value" />
+<div
+  class="radio"
+  [ngClass]="{ selected: selected }"
+  (click)="onChange()"
+  (blur)="onTouched()"
+>
+  <ui-icon *ngIf="icon" [type]="icon"></ui-icon>
+  <p>{{ label }}</p>
+</div>

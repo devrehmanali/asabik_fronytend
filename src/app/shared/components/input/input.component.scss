@@ -1,0 +1,172 @@
+@use "sass:map";
+@import "variables";
+@import "mixins/typography";
+@import "functions";
+
+:host {
+  position: relative;
+  display: flex;
+  width: 100%;
+
+  .input-wrapper {
+    display: flex;
+    position: relative;
+    min-height: 40px;
+    width: 100%;
+
+    padding: getSpacers(2);
+    margin-bottom: 20px;
+    color: map.get($text-colors, "medium");
+    transition: outline-color 0.2s;
+
+    outline: 1px solid #e1e4e8;
+    border-radius: 8px;
+    border: none;
+
+    @include typography("body-regular");
+
+    .prefix {
+      margin: getSpacers(0, 1);
+      margin-top: 1px;
+      @include typography("button-medium");
+      color: map.get($text-colors, "disabled");
+      white-space: nowrap;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 50px;
+    max-height: 200px;
+  }
+
+  .input {
+    border: none;
+    width: 100%;
+    &::placeholder {
+      outline: none;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+  .error-message {
+    position: absolute;
+    display: flex;
+    display: none;
+    align-items: center;
+    color: map.get($theme-colors, "danger");
+    @include typography("hint-text");
+    gap: 9px;
+
+    bottom: 0px;
+  }
+  label {
+    @include typography("label-regular");
+    transition: color 0.2s;
+    color: map.get($text-colors, "dark");
+    position: absolute;
+    left: 10px;
+    top: -10px;
+    z-index: 1;
+
+    &::before {
+      z-index: -1;
+      content: "";
+      position: absolute;
+      background-color: white;
+      width: calc(100% + 14px);
+      top: 8px;
+      left: -7px;
+      height: 4px;
+    }
+
+    &.readonly::before {
+      background-color: transparent !important;
+    }
+  }
+  &.ng-touched {
+    &.ng-valid {
+      .input-wrapper {
+        color: map.get($theme-colors, "success");
+        outline: 1px solid map.get($theme-colors, "success");
+
+        &::placeholder {
+          color: map.get($theme-colors, "success");
+        }
+      }
+      label {
+        color: map.get($theme-colors, "success");
+      }
+    }
+
+    &.ng-invalid {
+      .input-wrapper {
+        color: map.get($theme-colors, "danger");
+        outline: 1px solid map.get($theme-colors, "danger");
+
+        &::placeholder {
+          color: map.get($theme-colors, "danger");
+        }
+      }
+      label {
+        color: map.get($theme-colors, "danger");
+      }
+    }
+
+    &.ng-focus {
+      .input-wrapper {
+        color: map.get($theme-colors, "info");
+        outline: 1px solid map.get($theme-colors, "info");
+
+        &::placeholder {
+          color: map.get($theme-colors, "info");
+        }
+      }
+      label {
+        color: map.get($theme-colors, "info");
+      }
+    }
+  }
+  &[disabled="true"] {
+    .input-wrapper {
+      background-color: #f1f2f4;
+      outline: 1px solid #e1e4e8 !important;
+      .input {
+        background-color: inherit;
+        color: map.get($theme-colors, "disabled");
+      }
+
+      &::placeholder {
+        color: map.get($theme-colors, "dis") !important;
+      }
+    }
+    label {
+      color: map.get($text-colors, "dark") !important;
+      &::before {
+        background-color: transparent;
+      }
+    }
+  }
+  &[readonly="true"] {
+    .input-wrapper {
+      background-color: #f1f2f4;
+      outline: 1px solid #e1e4e8 !important;
+      .input {
+        background-color: inherit;
+        color: map.get($theme-colors, "disabled");
+      }
+
+      &::placeholder {
+        color: map.get($theme-colors, "dis") !important;
+      }
+    }
+    label {
+      color: map.get($text-colors, "dark") !important;
+      &::before {
+        background-color: transparent;
+      }
+    }
+  }
+}

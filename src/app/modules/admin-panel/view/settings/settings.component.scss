@@ -1,0 +1,161 @@
+@use "sass:map";
+@import "variables";
+@import "mixins/typography";
+@import "functions";
+
+:host {
+  padding: 64px 100px 64px 100px;
+}
+
+.head {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.settings__buttons-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings__card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 40px;
+
+  .settings__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 6px;
+    margin: 10px;
+    width: 30%;
+    border: 2px solid map.get($theme-colors, "primary");
+    border-radius: 20px;
+
+    @media (max-width: 1400px) {
+      width: 35%;
+    }
+
+    @media (max-width: 1275px) {
+      width: 40%;
+    }
+
+    @media (max-width: 1170px) {
+      width: 100%;
+    }
+
+    &__title {
+      font-size: 16px;
+    }
+
+    &__description {
+      font-size: 13px;
+      color: map.get($theme-colors, "disabled");
+    }
+
+    &__input {
+      border-radius: 10px;
+      border: 1px solid map.get($theme-colors, "disabled");
+
+      height: 40px;
+      text-align: start;
+      padding-left: 15px;
+      color: map.get($theme-colors, "white");
+      background: map.get($theme-colors, "primary");
+    }
+
+    .amount-field-group {
+      padding: 10px;
+      border-radius: 8px;
+      background-color: map.get($theme-colors, "primary");
+      color: map.get($theme-colors, "light");
+      text-align: left;
+
+      label {
+        @include typography("label-regular");
+      }
+
+      .amount-field {
+        display: flex;
+        gap: getSpacers(4);
+        align-items: center;
+        width: 250px;
+
+        &_arrows {
+          display: inline-block;
+          cursor: pointer;
+          margin-bottom: -10px;
+
+          &_up {
+            margin-bottom: 10px;
+            color: map.get($theme-colors, "white");
+
+            &:hover {
+              color: map.get($theme-colors, "secondary");
+            }
+          }
+
+          &_down {
+            margin-left: -24px;
+            color: map.get($theme-colors, "white");
+
+            &:hover {
+              color: map.get($theme-colors, "secondary");
+            }
+          }
+        }
+
+        span {
+          line-height: 0;
+        }
+
+        input {
+          background-color: inherit;
+          color: inherit;
+          border: none;
+          border-bottom: 1px solid map.get($theme-colors, "light");
+          width: 250px;
+          padding: getSpacers(1);
+          @include typography("body-semibold");
+
+          &:focus {
+            outline: none;
+          }
+
+          &::-webkit-inner-spin-button,
+          &::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+        }
+        input[type="number"] {
+          -moz-appearance: textfield;
+        }
+      }
+    }
+  }
+}
+
+.save_button {
+  display: flex;
+  justify-content: center;
+
+  app-button {
+    width: 30%;
+    margin: 10px;
+    cursor: pointer;
+  }
+}
+
+.plaid {
+  cursor: pointer;
+
+  .plaid-logo {
+    width: 80px;
+    height: 30px;
+  }
+}

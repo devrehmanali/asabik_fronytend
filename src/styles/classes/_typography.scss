@@ -1,0 +1,14 @@
+@each $headerName, $style in $typography-config {
+  .#{$headerName} {
+    @include propValue($style);
+  }
+  @each $breakpoint in map-keys($grid-breakpoints) {
+    $infix: breakpoint-infix($breakpoint);
+
+    @include media-breakpoint-down($breakpoint) {
+      .#{$headerName}#{$infix} {
+        @include propValue($style);
+      }
+    }
+  }
+}

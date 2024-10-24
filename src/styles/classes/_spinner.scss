@@ -1,0 +1,28 @@
+@use "../vendor/bootstrap/variables/colors" as colors;
+
+@keyframes spinner {
+  0% {
+    transform: translate3d(-50%, -50%, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate3d(-50%, -50%, 0) rotate(360deg);
+  }
+}
+
+@each $name, $color in colors.$theme-colors {
+  .loading-#{$name} {
+    @include spinner($color);
+  }
+
+  .loading-#{$name}-sm {
+    @include spinner($color, 20px, 3px);
+  }
+}
+
+.loading {
+  @include spinner();
+}
+
+.loading-sm {
+  @include spinner($secondary, 20px, 3px);
+}

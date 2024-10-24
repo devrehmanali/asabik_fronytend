@@ -1,0 +1,70 @@
+<div class="steps mb-5">Step {{ currentStep }} of {{ steps }}</div>
+<div class="progress">
+  <div
+    class="progress-bar bg-secondary"
+    role="progressbar"
+    [style.width]="(currentStep / steps) * 100 + '%'"
+  ></div>
+</div>
+<form
+  *ngIf="currentStep < steps"
+  [formGroup]="form"
+  class="form"
+  (submit)="nextStep()"
+>
+  <h1>
+    Has any of the money you are about to invest (even if it is 1 cent) were
+    earned from
+  </h1>
+  <p class="mb-6">
+    {{ questions[currentStep - 1].body }}
+  </p>
+  <div class="answer-container mb-6">
+    <app-radio
+      class="answer-radio"
+      name="answer"
+      formControlName="answer"
+      label="Yes"
+      [value]="true"
+    >
+    </app-radio>
+    <app-radio
+      class="answer-radio"
+      name="answer"
+      formControlName="answer"
+      label="No"
+      [value]="false"
+    >
+    </app-radio>
+  </div>
+
+  <app-button
+    [disabled]="form.invalid"
+    class="next-button"
+    [color]="buttonColor.Secondary"
+    >Next</app-button
+  >
+</form>
+
+<form
+  *ngIf="currentStep >= steps"
+  [formGroup]="nameForm"
+  class="form"
+  (submit)="sendData()"
+>
+  <h1>Enter your name and surname</h1>
+  <div class="answer-container mb-6">
+    <app-input
+      formControlName="fullName"
+      class="mb-5"
+      label="Name Surname"
+    ></app-input>
+  </div>
+
+  <app-button
+    [disabled]="nameForm.invalid"
+    class="next-button"
+    [color]="buttonColor.Success"
+    >Confirm</app-button
+  >
+</form>

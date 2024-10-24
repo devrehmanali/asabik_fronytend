@@ -1,0 +1,247 @@
+@use "sass:map";
+@import "variables";
+@import "mixins/typography";
+@import "functions";
+
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: getSpacers(0, 6);
+
+  .steps {
+    @include typography("body-regular");
+    color: map.get($text-colors, "light");
+    display: flex;
+    justify-content: space-between;
+    height: 35px;
+
+    div {
+      width: 100%;
+    }
+  }
+
+  .progress {
+    width: 100%;
+  }
+
+  .switch {
+    height: 100%;
+
+    & > div {
+      height: 100%;
+    }
+  }
+
+  .form {
+    position: relative;
+    height: 100%;
+    width: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+
+    text-align: center;
+
+    h1 {
+      @include typography("heading-bold-large");
+      color: map.get($text-colors, "dark");
+      margin: getSpacers(5, 0);
+    }
+
+    p {
+      @include typography("body-regular");
+      color: map.get($text-colors, "medium");
+      margin: getSpacers(3, 0);
+    }
+
+    .answer-container {
+      display: flex;
+      width: 311px;
+      flex-direction: column;
+      gap: getSpacers(4);
+
+      .answer-group {
+        display: flex;
+        flex-direction: column;
+        gap: getSpacers(4);
+      }
+
+      .answer-radio::ng-deep {
+        margin: auto;
+        width: 100%;
+
+        .radio {
+          padding: getSpacers(3, 4);
+
+          p {
+            padding: 0;
+            margin: 0;
+            @include typography("body-semibold");
+            text-align: left;
+            align-self: flex-start;
+          }
+        }
+      }
+    }
+
+    .date-input {
+      margin-bottom: 30px;
+    }
+
+    .select-input {
+      margin-bottom: 30px;
+      width: 100%;
+    }
+
+    .next-button {
+      margin-bottom: 45px;
+      margin-top: 60px;
+      width: 311px;
+    }
+  }
+
+  .input-field-group {
+    padding: getSpacers(2, 4);
+    border-radius: 8px;
+    outline: 2px solid map.get($theme-colors, "primary");
+    background-color: map.get($theme-colors, "primary");
+    color: map.get($theme-colors, "light");
+    text-align: left;
+    width: 311px;
+
+    label {
+      @include typography("label-regular");
+    }
+
+    .input-field {
+      display: flex;
+      gap: getSpacers(2);
+      align-items: center;
+
+      span {
+        line-height: 0;
+
+        &.net-return {
+          width: 50px;
+          color: map.get($theme-colors, "info");
+        }
+      }
+
+      input {
+        background-color: inherit;
+        color: inherit;
+        border: none;
+        border-bottom: 1px solid map.get($theme-colors, "light");
+        padding: getSpacers(1);
+        @include typography("body-semibold");
+
+        &:focus {
+          outline: none;
+        }
+
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  .business-select {
+    width: 300px;
+  }
+
+  .textarea {
+    height: 260px;
+  }
+
+  .description-container {
+    display: flex;
+    width: 311px;
+    flex-direction: column;
+    gap: getSpacers(4);
+    padding-bottom: 100px;
+    margin-top: -15px;
+
+    .answer-group {
+      display: flex;
+      flex-direction: column;
+      gap: getSpacers(4);
+    }
+  }
+
+  .char-count {
+    display: flex;
+    justify-content: start;
+    margin-top: -65px;
+    margin-left: 10px;
+    margin-bottom: -50px;
+    font-size: 14px;
+    color: map.get($theme-colors, "disabled");
+  }
+
+  .next-button-businessPurposeForm {
+    padding-bottom: 45px;
+    margin-top: 60px;
+    width: 311px;
+  }
+
+  .input-field-group-calculator {
+    padding: getSpacers(2, 4);
+    border-radius: 8px;
+    outline: 2px solid map.get($theme-colors, "light");
+    background-color: map.get($theme-colors, "light");
+    color: map.get($theme-colors, "dark");
+    box-shadow: 0px 16px 16px rgba(1, 64, 143, 0.1);
+    text-align: left;
+    margin-top: 20px;
+    width: 311px;
+
+    label {
+      @include typography("label-regular");
+    }
+
+    .input-field {
+      display: flex;
+      gap: getSpacers(2);
+      align-items: center;
+
+      .calculator {
+        border-bottom: 1px solid map.get($theme-colors, "dark");
+        padding-bottom: 5px;
+      }
+
+      span {
+        line-height: 0;
+
+        &.net-return {
+          width: 50px;
+          color: map.get($theme-colors, "secondary");
+        }
+      }
+
+      input {
+        background-color: inherit;
+        color: inherit;
+        border: none;
+        border-bottom: 1px solid map.get($theme-colors, "light");
+        padding: getSpacers(1);
+        @include typography("body-semibold");
+
+        &:focus {
+          outline: none;
+        }
+
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+      }
+    }
+  }
+}

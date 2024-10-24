@@ -1,0 +1,25 @@
+@use "sass:map";
+@import "@angular/material/prebuilt-themes/deeppurple-amber";
+@import "./vendor/bootstrap";
+@import "./vendor/material";
+@import "./utils";
+@import "./variables";
+@import "./mixins/";
+@import "./classes/";
+@import "./normalize";
+@import "./functions";
+
+p {
+  @include typography("body-regular");
+  color: map.get($text-colors, "medium");
+}
+
+a {
+  color: map.get($theme-colors, "info");
+  text-decoration: underline;
+}
+
+hr {
+  border-top: 1px solid #e1e4e8;
+  border-bottom: none;
+}

@@ -1,0 +1,178 @@
+@use "sass:map";
+@import "variables";
+@import "mixins/typography";
+@import "functions";
+
+:host {
+  max-width: 100%;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .companyName,
+  .ownerName {
+    justify-content: flex-start;
+    width: inherit;
+    padding-inline: 35px;
+    margin-bottom: 5px;
+  }
+  p {
+    color: map.get($text-colors, "dark");
+    span {
+      font-weight: 700;
+    }
+  }
+  .splash {
+    width: 800px;
+    object-fit: cover;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+  .actionButtons {
+    display: flex;
+    justify-content: flex-start;
+    width: inherit;
+    margin-left: 10px;
+    .actionPopup {
+      display: none;
+      box-shadow: rgba(50, 50, 93, 0.07) 2px 6px 12px 3px,
+        rgba(0, 0, 0, 0.12) 2px 3px 7px 5px;
+      background-color: white;
+      border-radius: 20px;
+      flex-direction: column;
+      align-items: center;
+      padding: 15px;
+      margin-left: 25px;
+      position: absolute;
+      transform: translateY(50px);
+      width: 285px;
+      text-align: center;
+      z-index: 100;
+
+      h4 {
+        font-size: 14px;
+      }
+      p {
+        margin-block: 15px;
+        color: map.get($theme-colors, "secondary");
+      }
+      #phoneCopied,
+      #addressCopied {
+        display: none;
+        color: map.get($text-colors, "light");
+        font-weight: 600;
+      }
+    }
+    img {
+      width: 40px;
+      height: 40px;
+      margin-left: 10px;
+      &:hover {
+        opacity: 0.45;
+        transition: 450ms;
+        cursor: pointer;
+      }
+      &:hover + .actionPopup {
+        display: flex;
+      }
+    }
+  }
+  .details {
+    width: 100%;
+    padding-top: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    gap: 8px;
+    border-radius: 55px;
+    transform: translateY(-45px);
+    background-color: white;
+    .businessDescription {
+      overflow-wrap: break-word;
+      width: inherit;
+      margin-block: 15px;
+      display: block;
+      font-size: 14px;
+    }
+    .requestsContainer {
+      display: flex;
+      width: inherit;
+      align-items: center;
+      justify-content: center;
+      .investmentRequest {
+        gap: 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin: 12.5px;
+        max-width: 475px;
+        min-height: 150px;
+        border-radius: 20px;
+        padding: 25px 15px;
+        box-shadow: rgba(50, 50, 93, 0.07) 2px 6px 12px 3px,
+          rgba(0, 0, 0, 0.12) 2px 3px 7px 5px;
+        .description {
+          margin-bottom: 20px;
+          padding-inline: 10px;
+          text-align: start;
+          width: inherit;
+          overflow-wrap: break-word;
+          display: block;
+        }
+        div {
+          width: 425px;
+          gap: 8px;
+        }
+      }
+    }
+    div {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 90%;
+      .orange {
+        color: map.get($theme-colors, "secondary");
+      }
+      .light {
+        color: map.get($text-colors, "light");
+      }
+    }
+  }
+  /*#region Custom Checkbox Input */
+  .container {
+    display: block;
+    position: relative;
+    margin-bottom: 12px;
+    font-size: 16px;
+    h4 {
+      color: map.get($theme-colors, "secondary");
+    }
+  }
+  /*#endregion Custom Checkbox Input */
+}
+
+.description__title {
+  margin-top: -10px;
+}
+
+.description__text {
+  font-style: italic;
+}
+
+.description__button {
+  cursor: pointer;
+  color: map.get($theme-colors, "secondary");
+}
+
+.descriptionRequest__text {
+  font-style: italic;
+  font-size: 14px;
+  color: map.get($theme-colors, "disabled");
+}
+
+.descriptionRequest__button {
+  cursor: pointer;
+  color: map.get($theme-colors, "secondary");
+  font-size: 14px;
+}

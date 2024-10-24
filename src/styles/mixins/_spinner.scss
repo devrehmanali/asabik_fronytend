@@ -1,0 +1,25 @@
+@mixin spinner($color: $secondary, $size: 40px, $thickness: 5px, $blur: 4px) {
+  width: 100%;
+  pointer-events: none;
+  position: relative;
+  > * {
+    filter: blur($blur);
+  }
+
+  &::before {
+    animation: 1.5s cubic-bezier(0.61, 0.45, 0.39, 0.59) infinite spinner;
+    animation-play-state: inherit;
+    border: solid $thickness $color;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    position: absolute;
+    content: "";
+    height: $size;
+    width: $size;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    will-change: transform;
+    z-index: 100;
+  }
+}

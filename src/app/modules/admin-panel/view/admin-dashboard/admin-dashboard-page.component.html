@@ -1,0 +1,46 @@
+<div class="head">
+  <h1 class="heading-bold">Dashboard</h1>
+</div>
+<div class="dashboard">
+  <div class="dashboard__wraper">
+    <div class="dashboard__wraper_card_users">
+      <div class="dashboard__wraper_card_users_label">All users:</div>
+      <div class="d-flex">
+        <ui-icon
+          class="dashboard__wraper_card_users_icon"
+          [type]="icon.People"
+        ></ui-icon>
+        <div class="dashboard__wraper_card_users_count heading-bold">
+          {{ numberOfUsers }}
+        </div>
+      </div>
+    </div>
+    <div class="dashboard__wraper_card_investor">
+      <div class="dashboard__wraper_card_investor_label">Investors:</div>
+      <div class="d-flex">
+        <ui-icon
+          class="dashboard__wraper_card_users_icon"
+          [type]="icon.Investor"
+        ></ui-icon>
+        <div class="dashboard__wraper_card_investor_count heading-bold">
+          {{ numberOfInvestors }}
+        </div>
+      </div>
+    </div>
+    <div class="dashboard__wraper_card_business">
+      <div class="dashboard__wraper_card_business_label">Business Owners:</div>
+      <div class="d-flex">
+        <ui-icon
+          class="dashboard__wraper_card_users_icon"
+          [type]="icon.Suitcase"
+        ></ui-icon>
+        <div class="dashboard__wraper_card_business_count heading-bold">
+          {{ numberOfBusinessOwners }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="pie-chart" style="width: 100%" #chart></div>
+  <div id="bar-chart" style="width: 100%" #barChart></div>
+</div>
+<div id="area-chart" style="width: 100%"></div>

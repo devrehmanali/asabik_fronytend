@@ -1,0 +1,6 @@
+<svg aria-hidden="true" focusable="false">
+  <title *ngIf="ariaTitle" [attr.id]="ariaLabelledBy">
+    {{ ariaTitle }}
+  </title>
+  <use [attr.xlink:href]="'assets/icons/' + type + '.svg#icon'" />
+</svg>

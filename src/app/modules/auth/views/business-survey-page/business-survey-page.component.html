@@ -1,0 +1,426 @@
+<div class="steps mb-5">
+  <div>
+    <ui-icon
+      *ngIf="currentStep > 1"
+      role="button"
+      [type]="icon.ArrowLeft"
+      (click)="previousStep()"
+      class="text-info"
+    ></ui-icon>
+  </div>
+  <div class="text-center">Step {{ currentStep }} of {{ steps }}</div>
+  <div></div>
+</div>
+<div class="progress">
+  <div
+    class="progress-bar bg-secondary"
+    role="progressbar"
+    [style.width]="(currentStep / steps) * 100 + '%'"
+  ></div>
+</div>
+<div class="switch" [ngSwitch]="currentStep">
+  <!-- ---------------------------------- 1 ---------------------------------- -->
+  <div *ngSwitchCase="1">
+    <form [formGroup]="businessStartForm" class="form" (submit)="nextStep()">
+      <h1>When did you start doing business?</h1>
+      <p class="mb-6">Insert date</p>
+      <mat-form-field appearance="fill" class="date-input">
+        <input formControlName="date" matInput [matDatepicker]="picker" />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <app-button
+        [disabled]="businessStartForm.invalid"
+        class="next-button"
+        [color]="buttonColor.Secondary"
+        >Next</app-button
+      >
+    </form>
+  </div>
+  <!-- ---------------------------------- 2 ---------------------------------- -->
+  <div *ngSwitchCase="2">
+    <form [formGroup]="businessPurposeForm" class="form" (submit)="nextStep()">
+      <h1>What is the purpose of the loan?</h1>
+      <div class="answer-container mb-1">
+        <app-radio
+          *ngFor="let purpose of businessPurposeList"
+          class="answer-radio"
+          name="purpose"
+          formControlName="purpose"
+          [label]="purpose.name"
+          [value]="purpose.value"
+        ></app-radio>
+      </div>
+      <app-button
+        [disabled]="businessPurposeForm.invalid"
+        class="next-button"
+        [color]="buttonColor.Secondary"
+        >Next</app-button
+      >
+    </form>
+  </div>
+  <!-- ---------------------------------- 3 ---------------------------------- -->
+  <div *ngSwitchCase="3">
+    <form
+      [formGroup]="businessPurposeDescriptionForm"
+      class="form"
+      (submit)="nextStep()"
+    >
+      <h1>What is the purpose of the loan?</h1>
+      <div class="description-container">
+        <app-input
+          formControlName="loanPurpose"
+          class="textarea"
+          label="Purpose of the loan description"
+          placeholder="(500-2400 characters)"
+          [type]="inputType.Textarea"
+          (input)="onDescriptionChange('loanPurpose')"
+          id="description1"
+        ></app-input>
+        <div class="char-count">{{ charCount1 }}/{{ maxLength }}</div>
+      </div>
+      <div class="description-container">
+        <app-input
+          formControlName="helpIncreaseProfit"
+          class="textarea"
+          label="How this fund will help increase your profit"
+          placeholder="(500-2400 characters)"
+          [type]="inputType.Textarea"
+          (input)="onDescriptionChange('helpIncreaseProfit')"
+          id="description2"
+        ></app-input>
+        <div class="char-count">{{ charCount2 }}/{{ maxLength }}</div>
+      </div>
+      <div class="input-field-group">
+        <label for="amount"
+          >How much will the investment increase after a year?</label
+        >
+        <div class="input-field">
+          <span>USD</span>
+          <input
+            class="w-100"
+            formControlName="profitIncrease"
+            type="number"
+            autocomplete="off"
+            name="amount"
+          />
+        </div>
+      </div>
+      <app-button
+        [disabled]="businessPurposeDescriptionForm.invalid"
+        class="next-button"
+        [color]="buttonColor.Secondary"
+        >Next</app-button
+      >
+    </form>
+  </div>
+  <!-- ---------------------------------- 4 ---------------------------------- -->
+  <div *ngSwitchCase="4">
+    <form [formGroup]="returnTermForm" class="form" (submit)="nextStep()">
+      <h1>What is the total required capital and return term?</h1>
+      <div class="answer-container mb-6">
+        <div class="answer-group" *ngFor="let returnTerm of returnTermList">
+          <app-radio
+            class="answer-radio"
+            name="months"
+            formControlName="months"
+            label="{{ returnTerm.months }} months"
+            [value]="returnTerm.months"
+          >
+          </app-radio>
+          <div
+            class="input-field-group"
+            *ngIf="returnTermForm.value.months == returnTerm.months"
+          >
+            <label for="amount">Required capital</label>
+            <div class="input-field mt-1 mb-4">
+              <span>USD</span>
+              <input
+                class="w-100"
+                formControlName="amount"
+                type="number"
+                autocomplete="off"
+                name="amount"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <app-button
+        [disabled]="returnTermForm.invalid"
+        class="next-button"
+        [color]="buttonColor.Secondary"
+        >Next</app-button
+      >
+    </form>
+  </div>
+  <!-- ---------------------------------- 5 ---------------------------------- -->
+  <div *ngSwitchCase="5">
+    <form [formGroup]="businessForm" class="form" (submit)="nextStep()">
+      <h1 class="text-center">
+        What industry describes your main business activity?
+      </h1>
+      <mat-form-field appearance="fill" class="select-input">
+        <mat-label>Select an option</mat-label>
+        <mat-select
+          (selectionChange)="updateBusinessSectorList()"
+          formControlName="business"
+          disableRipple
+        >
+          <mat-option *ngFor="let item of businessesList" [value]="item.id">
+            {{ formatItemId(item.id) }} - {{ item.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <app-button
+        [disabled]="businessForm.invalid"
+        class="next-button"
+        [color]="buttonColor.Secondary"
+        >Next</app-button
+      >
+    </form>
+  </div>
+  <!-- ---------------------------------- 6 ---------------------------------- -->
+  <div *ngSwitchCase="6">
+    <form [formGroup]="businessSectorForm" class="form" (submit)="nextStep()">
+      <h1 class="text-center">
+        What industry describes your main business activity?
+      </h1>
+      <mat-form-field appearance="fill" class="select-input">
+        <mat-label>Select an option</mat-label>
+        <mat-select
+          (selectionChange)="updateBusinessSubsectorList()"
+          formControlName="businessSector"
+          disableRipple
+        >
+          <mat-option *ngFor="let item of businessSectorsList" [value]="item.id"
+            >{{ item.id }} - {{ item.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+
+      <app-button
+        [disabled]="businessSectorForm.invalid"
+        class="next-button"
+        [color]="buttonColor.Secondary"
+        >Next</app-button
+      >
+    </form>
+  </div>
+  <!-- ---------------------------------- 7 ---------------------------------- -->
+  <div *ngSwitchCase="7">
+    <form
+      [formGroup]="businessSubsectorForm"
+      class="form"
+      (submit)="nextStep()"
+    >
+      <h1 class="text-center">What is your main product or service?</h1>
+      <mat-form-field appearance="fill" class="select-input">
+        <mat-label>Select an option</mat-label>
+        <mat-select formControlName="businessSubsector" disableRipple>
+          <mat-option
+            *ngFor="let item of businessSubsectorsList"
+            [value]="item.id"
+            >{{ item.id }} - {{ item.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+
+      <app-button
+        [disabled]="businessSubsectorForm.invalid"
+        class="next-button"
+        [color]="buttonColor.Secondary"
+        >Next</app-button
+      >
+    </form>
+  </div>
+  <!-- ---------------------------------- 8 ---------------------------------- -->
+  <div *ngSwitchCase="8">
+    <form
+      [formGroup]="businessStructureForm"
+      class="form"
+      (submit)="nextStep()"
+    >
+      <h1>Describe your business</h1>
+      <p class="mb-6">Select business structure</p>
+      <div class="answer-container mb-6">
+        <app-radio
+          *ngFor="let structure of businessStructureList"
+          class="answer-radio"
+          name="businessStructure"
+          formControlName="businessStructure"
+          [label]="structure.name"
+          [value]="structure.value"
+        >
+        </app-radio>
+      </div>
+      <div class="input-field-group mb-4">
+        <label for="employeesNo">Number of people employed</label>
+        <div class="input-field mt-1 mb-4">
+          <input
+            class="w-100"
+            formControlName="employeesNo"
+            type="number"
+            autocomplete="off"
+            name="employeesNo"
+            oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+          />
+        </div>
+      </div>
+      <app-button
+        [disabled]="businessStructureForm.invalid"
+        class="next-button"
+        [color]="buttonColor.Secondary"
+        >Next</app-button
+      >
+    </form>
+  </div>
+  <!-- ---------------------------------- 9 ---------------------------------- -->
+  <div *ngSwitchCase="9">
+    <form
+      [formGroup]="businessMonthlySalesForm"
+      class="form"
+      (submit)="nextStep()"
+    >
+      <h1>What are your monthly sales?</h1>
+      <div class="input-field-group mt-1 mb-4">
+        <label for="amount">What is your average sales?</label>
+        <div class="input-field">
+          <span>USD</span>
+          <input
+            class="w-100"
+            formControlName="avrMonthlySales"
+            type="number"
+            autocomplete="off"
+            name="amount"
+          />
+        </div>
+      </div>
+      <div class="input-field-group mt-1 mb-4">
+        <label for="amount">What is your average monthly net profit?</label>
+        <div class="input-field">
+          <span>USD</span>
+          <input
+            class="w-100"
+            formControlName="avrMonthlyNetProfit"
+            type="number"
+            autocomplete="off"
+            name="amount"
+          />
+        </div>
+      </div>
+      <div class="input-field-group mt-1 mb-4">
+        <label for="amount">Total net profit made last year?</label>
+        <div class="input-field">
+          <span>USD</span>
+          <input
+            class="w-100"
+            formControlName="totalLastYearNetProfit"
+            type="number"
+            autocomplete="off"
+            name="amount"
+          />
+        </div>
+      </div>
+      <app-button
+        [disabled]="businessMonthlySalesForm.invalid"
+        class="next-button"
+        [color]="buttonColor.Secondary"
+        >Next</app-button
+      >
+    </form>
+  </div>
+  <!-- ---------------------------------- 10 ---------------------------------- -->
+  <div *ngSwitchCase="10">
+    <form [formGroup]="netReturnTermForm" class="form" (submit)="nextStep()">
+      <h1 class="text-center">
+        What is the expected profit and profit willing to share with investors?
+      </h1>
+      <div class="input-field-group mb-4">
+        <label for="netReturn">Expected profit</label>
+        <div class="input-field mt-1 mb-4">
+          <span>USD</span>
+          <input
+            class="w-100"
+            formControlName="netReturn"
+            type="number"
+            autocomplete="off"
+            name="netReturn"
+          />
+        </div>
+      </div>
+      <div class="input-field-group mb-4">
+        <label for="netReturnToShare"
+          >Profit willing to share with investors</label
+        >
+        <div class="input-field mt-1">
+          <span>USD</span>
+          <input
+            class="w-100"
+            formControlName="netReturnToShare"
+            type="number"
+            autocomplete="off"
+            name="netReturnToShare"
+          />
+        </div>
+      </div>
+      <div class="input-field-group-calculator">
+        <label>Profit Sharing Ratio (PSR)</label>
+        <div class="input-field mt-1 mb-4">
+          <span>%</span>
+          <input
+            class="w-100 calculator"
+            type="number"
+            autocomplete="off"
+            readonly
+            [value]="projectedNetReturnValue"
+          />
+        </div>
+      </div>
+      <app-button
+        [disabled]="netReturnTermForm.invalid"
+        class="next-button"
+        [color]="buttonColor.Secondary"
+        >Next</app-button
+      >
+    </form>
+  </div>
+  <!-- ---------------------------------- 11 ---------------------------------- -->
+  <div *ngSwitchCase="11">
+    <form [formGroup]="websiteAddressForm" class="form" (submit)="nextStep()">
+      <h1>Website address?</h1>
+      <p class="mb-6">(optional)</p>
+      <app-input
+        class="text-input"
+        formControlName="websiteAddress"
+        prefix="https://"
+      ></app-input>
+      <app-button
+        [disabled]="websiteAddressForm.invalid"
+        class="next-button"
+        [color]="buttonColor.Secondary"
+        >Next</app-button
+      >
+    </form>
+  </div>
+  <!-- --------------------------------- 12 ---------------------------------- -->
+  <div *ngSwitchCase="12">
+    <form [formGroup]="websiteAddressForm" class="form" (submit)="sendData()">
+      <h1>Are you sure your answers are correct?</h1>
+      <p class="mb-6">
+        We recommend verifying everything before the end, as wrong answers may
+        result in your account being blocked from the platform.
+      </p>
+      <app-button
+        [disabled]="websiteAddressForm.invalid"
+        class="next-button"
+        [color]="buttonColor.Success"
+        >Confirm</app-button
+      >
+    </form>
+  </div>
+</div>

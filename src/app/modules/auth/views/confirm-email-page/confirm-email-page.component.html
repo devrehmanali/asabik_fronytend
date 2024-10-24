@@ -1,0 +1,29 @@
+<div [ngSwitch]="status">
+  <div *ngSwitchCase="emailConfirmationStatus.Loading">
+    <div class="loading-secondary"></div>
+  </div>
+  <div *ngSwitchCase="emailConfirmationStatus.Error">
+    <div class="app-container">
+      <h1 class="heading-bold text-dark mb-4">Error!</h1>
+      <p class="mb-4">Something went wrong</p>
+      <app-button [routerLink]="[link.LogIn]" class="mb-3">Ok</app-button>
+    </div>
+  </div>
+  <div *ngSwitchCase="emailConfirmationStatus.Success">
+    <div class="app-container">
+      <h1 class="heading-bold text-dark mb-4">Success!</h1>
+      <ng-container *ngIf="userRole === 'Investor'; else businessOwnerContent">
+        <p class="mb-4">
+          Congratulations, you have created Asabik account for investor.
+        </p>
+      </ng-container>
+      <ng-template #businessOwnerContent>
+        <p class="mb-4">
+          Congratulations, you have created Asabik account for investment
+          funding.
+        </p>
+      </ng-template>
+      <app-button [routerLink]="[link.LogIn]" class="mb-3">Ok</app-button>
+    </div>
+  </div>
+</div>

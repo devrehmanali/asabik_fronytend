@@ -1,0 +1,159 @@
+@use "sass:map";
+@import "variables";
+@import "mixins/typography";
+@import "functions";
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  .invest {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 485px;
+    height: 725px;
+
+    .finish_invest {
+      margin-top: 140px;
+    }
+
+    .finish_invest_value {
+      margin-bottom: 140px;
+      color: map.get($theme-colors, "light");
+      border-radius: 20px;
+      padding: 15px;
+      background-color: map.get($theme-colors, "primary");
+    }
+
+    .text_error {
+      text-align: center;
+      border-radius: 20px;
+      padding: 20px;
+      background-color: map.get($theme-colors, "danger");
+      width: 80%;
+      margin: 25px;
+
+      &_text {
+        color: map.get($theme-colors, "light");
+      }
+
+      &_icon {
+        color: map.get($theme-colors, "light");
+        height: 40px;
+        width: 40px;
+      }
+    }
+
+    .splash {
+      width: 100%;
+      height: 355px;
+      object-fit: cover;
+      object-position: top;
+      border-radius: 20px;
+      margin-top: -70px;
+    }
+    h3 {
+      padding-top: 20px;
+      padding-bottom: 10px;
+      color: map.get($text-colors, "dark");
+    }
+    .requestName,
+    .decorationText {
+      font-weight: 600;
+      padding: 10px;
+      font-size: 16px;
+    }
+    .requestName {
+      color: map.get($theme-colors, "secondary");
+    }
+    .decorationText {
+      color: map.get($text-colors, "light");
+    }
+    .priceRatios {
+      width: 80%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      padding-block: 20px;
+      div {
+        cursor: pointer;
+        padding: 15px 25px;
+        box-shadow: rgba(50, 50, 93, 0.045) 2px 6px 12px 3px,
+          rgba(0, 0, 0, 0.07) 2px 3px 7px 5px;
+        border-radius: 100%;
+      }
+    }
+    .buttons-container {
+      width: 80%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      app-button {
+        width: 185px;
+      }
+    }
+  }
+  .amount-field-group {
+    padding: getSpacers(2, 4);
+    border-radius: 8px;
+    outline: 2px solid map.get($theme-colors, "info");
+    background-color: map.get($theme-colors, "info");
+    color: map.get($theme-colors, "light");
+    text-align: left;
+    label {
+      @include typography("label-regular");
+    }
+    .amount-field {
+      display: flex;
+      gap: getSpacers(2);
+      align-items: center;
+
+      &_arrows {
+        display: inline-block;
+        cursor: pointer;
+        margin-bottom: -10px;
+
+        &_up {
+          margin-bottom: 10px;
+
+          &:hover {
+            color: black;
+          }
+        }
+
+        &_down {
+          margin-left: -24px;
+
+          &:hover {
+            color: black;
+          }
+        }
+      }
+
+      span {
+        line-height: 0;
+      }
+
+      input {
+        background-color: inherit;
+        color: inherit;
+        border: none;
+        border-bottom: 1px solid map.get($theme-colors, "light");
+        padding: getSpacers(1);
+        @include typography("body-semibold");
+
+        &:focus {
+          outline: none;
+        }
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+      }
+    }
+  }
+}

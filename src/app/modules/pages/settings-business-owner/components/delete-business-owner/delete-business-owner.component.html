@@ -1,0 +1,27 @@
+<div class="container">
+  <!-- ------------------------------- HEADER -------------------------------- -->
+  <div class="header">
+    <div class="d-flex justify-content-between">
+      <h1>Settings</h1>
+      <ui-icon
+        role="button"
+        class="text-primary"
+        [type]="icon.Preview"
+        (click)="navigateToPreview()"
+      ></ui-icon>
+    </div>
+    <hr />
+  </div>
+  <hr />
+  <div class="content">
+    <section>
+      <h4>DELETE ACCOUNT</h4>
+      <app-button
+        (click)="openDeleteModal()"
+        [color]="buttonColor.Danger"
+        class="mb-3"
+        >Delete</app-button
+      >
+    </section>
+  </div>
+</div>

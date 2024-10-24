@@ -1,0 +1,28 @@
+<div class="img-container custom-border" [ngClass]="{ dragover: isDragOver }">
+  <ui-icon [type]="icon.AddImg"></ui-icon>
+  <p class="text-dark table-bold">
+    Drop your image here, or
+    <span role="button" class="text-info">browse</span>
+  </p>
+  <p class="text-disabled table-regular text-center">
+    Supports: JPG, JPEG, PNG <br />
+    Max file size: XXX MB
+  </p>
+  <input
+    type="file"
+    accept="image/png, image/jpeg image/jpg"
+    name="image"
+    #imgInput
+    (change)="onFileChange(imgInput)"
+    (dragenter)="isDragOver = true"
+    (dragleave)="isDragOver = false"
+  />
+  <img *ngIf="imgUrl" [src]="imgUrl" />
+  <ui-icon
+    *ngIf="imgUrl"
+    role="button"
+    class="delete-icon text-info"
+    [type]="icon.Delete"
+    (click)="deleteFile(imgInput)"
+  ></ui-icon>
+</div>

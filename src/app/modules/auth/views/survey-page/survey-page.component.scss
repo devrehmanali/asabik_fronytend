@@ -1,0 +1,69 @@
+@use "sass:map";
+@import "variables";
+@import "mixins/typography";
+@import "functions";
+
+:host {
+  width: 100%;
+  padding: getSpacers(0, 6);
+  .steps {
+    @include typography("body-regular");
+    color: map.get($text-colors, "light");
+    text-align: center;
+  }
+  .progress {
+    width: 100%;
+  }
+
+  .form {
+    position: relative;
+    height: 525px;
+    width: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+
+    text-align: center;
+
+    h1 {
+      @include typography("heading-bold-large");
+      color: map.get($text-colors, "dark");
+      margin: getSpacers(5, 0);
+    }
+
+    p {
+      @include typography("body-regular");
+      color: map.get($text-colors, "medium");
+      margin: getSpacers(3, 0);
+    }
+
+    .answer-container {
+      display: flex;
+      width: 80%;
+      flex-direction: column;
+      gap: getSpacers(4);
+
+      .answer-radio::ng-deep {
+        margin: auto;
+        .radio {
+          padding: getSpacers(3, 4);
+          width: 311px;
+          p {
+            padding: 0;
+            margin: 0;
+            @include typography("body-semibold");
+            color: map.get($text-colors, "white");
+            text-align: left;
+            align-self: flex-start;
+          }
+        }
+      }
+    }
+
+    .next-button {
+      margin-top: 60px;
+      width: 311px;
+    }
+  }
+}

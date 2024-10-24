@@ -1,0 +1,12 @@
+@use "@angular/material" as mat;
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: inherit;
+  &:hover {
+    background-color: inherit;
+  }
+}
+
+.mdc-text-field {
+  will-change: inherit;
+}

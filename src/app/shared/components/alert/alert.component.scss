@@ -1,0 +1,44 @@
+@use "sass:map";
+@use "sass:list";
+@import "variables";
+@import "functions";
+
+$button-colors: (
+  "danger": (
+    map.get($theme-colors, "danger"),
+    map.get($theme-colors, "light"),
+  ),
+  "success": (
+    map.get($theme-colors, "success"),
+    map.get($theme-colors, "light"),
+  ),
+) !default;
+
+:host {
+  display: flex;
+  align-items: center;
+
+  min-width: 375px;
+  height: 44px;
+
+  gap: getSpacers(3);
+  padding: getSpacers(2, 4);
+
+  @each $name, $colors in $button-colors {
+    &.alert-#{$name} {
+      background-color: list.nth($colors, 1);
+      color: list.nth($colors, 2);
+    }
+  }
+
+  p {
+    width: 100%;
+    color: map.get($theme-colors, "light");
+  }
+
+  ui-icon {
+    width: 20px;
+    height: 20px;
+    color: map.get($theme-colors, "light");
+  }
+}

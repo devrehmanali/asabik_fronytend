@@ -1,0 +1,173 @@
+<div class="head">
+  <div class="profile">
+    <div class="welcome">
+      <h2>Welcome!</h2>
+    </div>
+    <div class="profile-flex">
+      <div class="icon">
+        <ui-icon [type]="icon.Investor"></ui-icon>
+      </div>
+      <div class="profile-data">
+        <span class="name">{{ session?.name }}</span>
+        <span class="email">{{ session?.email }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<nav>
+  <div class="links__bussines_owner">
+    <!-- -------------------------- INVESTOR SIDEBAR --------------------------- -->
+    <div class="links">
+      <div
+        *ngIf="session?.role == Role.Investor"
+        [routerLink]="[link.Dashboard]"
+        (click)="drawer.toggle()"
+        class="links__active"
+      >
+        <ui-icon [type]="icon.Companies"></ui-icon>
+        <span>Companies</span>
+      </div>
+    </div>
+    <div class="links">
+      <div
+        *ngIf="session?.role == Role.Investor"
+        [routerLink]="[link.Investments]"
+        (click)="drawer.toggle()"
+        class="links__active"
+      >
+        <ui-icon [type]="icon.MyInvestments"></ui-icon>
+        <span>Investments</span>
+      </div>
+    </div>
+    <div class="links">
+      <div
+        *ngIf="session?.role == Role.Investor"
+        [routerLink]="[link.MyProfile]"
+        (click)="drawer.toggle()"
+        class="links__active"
+      >
+        <ui-icon [type]="icon.Investor"></ui-icon>
+        <span>Profile</span>
+      </div>
+    </div>
+    <div class="links">
+      <div
+        (click)="onIdentityVerificationLinkClick()"
+        (click)="drawer.toggle()"
+        class="links__active"
+        *ngIf="session?.role == Role.Investor && !alerts?.isVerified"
+        [ngClass]="{
+          links__active_inactive: alerts?.isVerified,
+          links__active: !alerts?.isVerified
+        }"
+      >
+        <img
+          src="../../../../assets/img/plaid_logo.svg"
+          alt="Identity Verification"
+          class="plaid_logo"
+        />
+        <span class="plaid_logo_text">Identity Verification</span>
+      </div>
+    </div>
+    <!-- ----------------------- BUSINESS OWNER SIDEBAR ------------------------ -->
+    <div class="links">
+      <div
+        *ngIf="session?.role == Role.BusinessOwner"
+        [routerLink]="[link.Dashboard]"
+        (click)="drawer.toggle()"
+        class="links__active"
+      >
+        <ui-icon [type]="icon.Home"></ui-icon>
+        <span>Dashboard</span>
+      </div>
+    </div>
+    <div class="links">
+      <div
+        class="links__active"
+        *ngIf="session?.role == Role.BusinessOwner"
+        [routerLink]="[link.BusinessOwnerProfile]"
+        (click)="drawer.toggle()"
+      >
+        <ui-icon [type]="icon.Investor"></ui-icon>
+        <span>Profile</span>
+        <ui-icon
+          class="alert__dashboard_warning"
+          [type]="icon.Exclamation"
+          *ngIf="alerts?.isProfileIncomplete"
+        ></ui-icon>
+      </div>
+    </div>
+    <div class="links">
+      <div
+        *ngIf="session?.role == Role.BusinessOwner"
+        [routerLink]="[link.InvestmentRequest]"
+        (click)="drawer.toggle()"
+        class="links__active"
+      >
+        <ui-icon [type]="icon.Investment"></ui-icon>
+        <span>Investment Request</span>
+        <ui-icon
+          class="alert__dashboard_danger"
+          [type]="icon.Exclamation"
+          *ngIf="alerts?.isInvestmentRequestExpired"
+        ></ui-icon>
+      </div>
+    </div>
+    <div class="links">
+      <div
+        [ngClass]="{
+          links__active_inactive: !alerts?.isReportPending,
+          links__active: alerts?.isReportPending
+        }"
+        *ngIf="session?.role == Role.BusinessOwner"
+        [routerLink]="!alerts?.isReportPending ? [] : [link.MonthlyReport]"
+        (click)="drawer.toggle()"
+      >
+        <ui-icon [type]="icon.Wallet"></ui-icon>
+        <span>Monthly Reports</span>
+        <ui-icon
+          class="alert__dashboard_danger"
+          [type]="icon.Exclamation"
+          *ngIf="alerts?.isReportPending"
+        ></ui-icon>
+      </div>
+    </div>
+    <div class="links">
+      <div
+        class="links__active"
+        *ngIf="session?.role == Role.BusinessOwner"
+        [routerLink]="[link.SettingsBusinessOwner]"
+        (click)="drawer.toggle()"
+      >
+        <ui-icon [type]="icon.Settings"></ui-icon>
+        <span>Settings</span>
+      </div>
+    </div>
+    <div class="links">
+      <div
+        (click)="onIdentityVerificationLinkClick()"
+        (click)="drawer.toggle()"
+        class="links__active"
+        *ngIf="session?.role == Role.BusinessOwner && !alerts?.isVerified"
+        [ngClass]="{
+          links__active_inactive: alerts?.isVerified,
+          links__active: !alerts?.isVerified
+        }"
+      >
+        <img
+          src="../../../../assets/img/plaid_logo.png"
+          alt="Identity Verification"
+          class="plaid_logo"
+        />
+        <span class="plaid_logo_text">Identity Verification</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="links_logout">
+    <div class="links_logout_link" role="button" (click)="logout()">
+      <ui-icon [type]="icon.Logout"></ui-icon>
+      <span>Logout</span>
+    </div>
+  </div>
+</nav>

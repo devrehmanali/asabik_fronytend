@@ -1,0 +1,33 @@
+.modal__container {
+  width: 40vw;
+  height: 45vh;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.modal__img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal__text {
+  text-align: center;
+  padding: 20px;
+  margin: 20px;
+}
+
+.modal__buttons-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal__button {
+  width: 220px;
+  margin: 20px;
+}

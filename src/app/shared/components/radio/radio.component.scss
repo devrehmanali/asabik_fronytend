@@ -1,0 +1,51 @@
+@use "sass:map";
+@import "variables";
+@import "mixins/typography";
+@import "functions";
+
+:host {
+  position: relative;
+  input[type="radio"] {
+    display: none;
+  }
+  .radio {
+    padding: getSpacers(4);
+    color: map.get($text-colors, "medium");
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: getSpacers(2);
+
+    transition: {
+      property: background-color, color, outline-color;
+      duration: 0.2s;
+    }
+
+    outline: 1px solid #e1e4e8;
+    border-radius: 8px;
+    border: none;
+    @include typography("body-regular");
+
+    &:hover {
+      outline: 2px solid map.get($theme-colors, "primary");
+      color: map.get($theme-colors, "primary");
+    }
+
+    &.selected {
+      outline: 2px solid map.get($theme-colors, "primary");
+      background-color: map.get($theme-colors, "primary");
+      color: map.get($theme-colors, "light");
+    }
+    ui-icon {
+      width: 20px;
+      height: 20px;
+    }
+    p {
+      color: inherit;
+      margin: 0;
+    }
+  }
+}

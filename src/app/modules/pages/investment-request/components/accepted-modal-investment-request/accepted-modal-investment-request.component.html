@@ -1,0 +1,13 @@
+<div class="modal__container">
+  <img src="../../../../assets/img/asabik-logo.svg" />
+  <h2 class="modal__text">
+    {{ messageFromBackend }}
+  </h2>
+  <app-button
+    [type]="buttonType.Submit"
+    [color]="buttonColor.Light"
+    class="btn-light modal__button"
+    (click)="closeModal()"
+    >Close
+  </app-button>
+</div>

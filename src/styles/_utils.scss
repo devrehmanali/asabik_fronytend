@@ -1,0 +1,5 @@
+@mixin propValue($map) {
+  @each $prop, $value in $map {
+    #{$prop}: #{$value};
+  }
+}

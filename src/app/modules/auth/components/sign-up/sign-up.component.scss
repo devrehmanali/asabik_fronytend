@@ -1,0 +1,61 @@
+@import "mixins/typography";
+@import "functions";
+
+:host {
+  .form {
+    display: flex;
+    flex-direction: column;
+    color: #4e5d78;
+  }
+
+  .check-container-gray {
+    border-radius: 10px;
+    border: 1px solid rgb(180, 180, 180);
+    padding: 10px;
+    margin-top: 20px;
+
+    .check__icon {
+      height: 40px;
+      margin: 12px 14px 12px 10px;
+      color: rgb(180, 180, 180);
+    }
+  }
+
+  .check-container-red {
+    border-radius: 10px;
+    border: 1px solid #f03d3d;
+    padding: 10px;
+    margin-top: 20px;
+
+    .check__icon {
+      height: 40px;
+      margin: 12px 14px 12px 10px;
+      color: #f03d3d;
+    }
+  }
+
+  .check-container-green {
+    border-radius: 10px;
+    border: 1px solid #00865a;
+    padding: 10px;
+    background-color: #00e4981b;
+    margin-top: 20px;
+
+    .check__icon {
+      height: 40px;
+      margin: 12px 14px 12px 10px;
+      color: #00865a;
+    }
+  }
+
+  .password__valid {
+    border-radius: 10px;
+    border: 1px solid rgb(219, 219, 219);
+    font-size: 12px;
+    margin-top: -20px;
+    margin-bottom: 20px;
+    background-color: rgba(219, 219, 219, 0.119);
+    // color: rgba(0, 173, 0, 0.784);
+    // display: none;
+  }
+}

@@ -1,0 +1,196 @@
+@use "sass:map";
+@import "variables";
+@import "mixins/typography";
+@import "functions";
+
+:host {
+  padding: 64px 100px 64px 100px;
+}
+
+.upload {
+  display: flex;
+  flex-direction: column;
+
+  &__button {
+    z-index: 1;
+  }
+
+  &__send {
+    background: map.get($theme-colors, "success");
+    color: map.get($theme-colors, "white");
+    border: 1px solid map.get($theme-colors, "success");
+    border-radius: 12px;
+    font-size: 14px;
+    padding: 5px;
+    width: 100%;
+    text-align: center;
+    padding-top: 20px;
+    margin-top: -20px;
+
+    &:hover {
+      background: map.get($theme-colors, "white");
+      color: map.get($theme-colors, "success");
+      cursor: pointer;
+    }
+  }
+}
+
+.details__data {
+  border: 1px solid map.get($theme-colors, "primary");
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  align-items: center;
+}
+
+.details__cash {
+  border: 1px solid map.get($theme-colors, "success");
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  align-items: center;
+}
+
+.details__identity {
+  border: 1px solid map.get($theme-colors, "black");
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.details__plaid {
+  border: 1px solid map.get($theme-colors, "black");
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  &_logo {
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+  }
+}
+
+.tooltip {
+  display: none;
+  position: absolute;
+  background-color: map.get($theme-colors, "secondary");
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  z-index: 1;
+  font-size: 14px;
+  margin-top: -960px;
+  left: 52%;
+  transform: translateX(-37%);
+}
+
+td:hover .tooltip {
+  display: block;
+}
+
+.tooltip_profitToShare {
+  display: none;
+  position: absolute;
+  background-color: map.get($theme-colors, "danger");
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  z-index: 1;
+  font-size: 14px;
+  margin-top: -960px;
+  left: 52%;
+  transform: translateX(10%);
+}
+
+td:hover .tooltip_profitToShare {
+  display: block;
+}
+
+.monthly_reports {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+
+  &_plaid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    height: 80px;
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -10px;
+  }
+
+  &_details {
+    background-color: #0000005c;
+    border: 1px #000000 solid;
+    border-radius: 10px;
+    padding: 20px;
+    flex-direction: column;
+    width: 100%;
+    margin-left: 40px;
+    color: white;
+
+    &_list {
+      display: flex;
+      justify-content: space-between;
+
+      h5 {
+        color: #1f1f1f;
+        margin-right: 5px;
+      }
+
+      p {
+        color: white;
+
+        span {
+          color: #1f1f1f;
+          cursor: pointer;
+        }
+      }
+    }
+
+    &_buttons {
+      display: flex;
+      padding: 10px;
+      margin-bottom: -20px;
+
+      &_button {
+        padding: 10px;
+      }
+    }
+
+    &_title {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+  }
+
+  &_details_plaid {
+    border: 1px #000000 solid;
+    border-radius: 10px;
+    padding: 20px;
+    flex-direction: column;
+    width: 100%;
+    font-size: 23px;
+
+    &_list {
+      display: flex;
+      justify-content: space-between;
+
+      p {
+        color: #000000;
+      }
+    }
+  }
+}

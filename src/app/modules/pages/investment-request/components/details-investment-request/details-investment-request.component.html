@@ -1,0 +1,101 @@
+<div class="appllication__header">
+  <div role="button" (click)="navigateToBack()">
+    <ui-icon
+      (click)="navigateToBack()"
+      class="application__icon-back"
+      [type]="icon.ArrowLeft"
+    ></ui-icon>
+  </div>
+  <h2>Application details</h2>
+</div>
+<hr />
+<div class="application__container">
+  <div class="application__content">
+    <form [formGroup]="form" class="form pt-4">
+      <app-input
+        [readonly]="true"
+        class="mb-3"
+        label="Profit sharing ratio"
+        [placeholder]="investmentRequestDetails?.psr?.toString() || ''"
+      ></app-input>
+
+      <app-input
+        [readonly]="true"
+        class="mb-3"
+        label="Projected net return"
+        [placeholder]="
+          investmentRequestDetails?.projectedNetReturn?.toString() || ''
+        "
+      ></app-input>
+
+      <hr class="application__hr" />
+      <app-input
+        [readonly]="true"
+        class="mb-3"
+        label="Next Installment payment amount"
+        prefix="USD"
+        [placeholder]="
+          investmentRequestDetails?.nextInstallmentAmount?.toString() || ''
+        "
+      ></app-input>
+      <app-input
+        [readonly]="true"
+        class="mb-3"
+        label="Next Installment payment date"
+        [placeholder]="investmentRequestDetails?.nextInstallmentDate || ''"
+      ></app-input>
+      <app-input
+        [readonly]="true"
+        class="mb-3"
+        label="Next Plaid Verification"
+        [placeholder]="investmentRequestDetails?.nextPlaidVerifDate || ''"
+      ></app-input>
+      <hr class="application__hr" />
+      <app-input
+        [readonly]="true"
+        class="mb-3"
+        label="Final Installment payment amount"
+        prefix="USD"
+        [placeholder]="
+          investmentRequestDetails?.finalPaymentAmount?.toString() || ''
+        "
+      ></app-input>
+      <app-input
+        [readonly]="true"
+        class="mb-3"
+        label="Final Installment payment date"
+        [placeholder]="investmentRequestDetails?.finalPaymentDate || ''"
+      ></app-input>
+      <div class="application__text">
+        The amount of the final installment differs slightly in order to split
+        the amount into even parts and avoid indivisible numbers.
+      </div>
+      <app-input
+        [readonly]="true"
+        class="mb-3"
+        label="Debt to income ratio"
+        [placeholder]="investmentRequestDetails?.dti || ''"
+      ></app-input>
+      <app-input
+        [readonly]="true"
+        class="mb-3"
+        label="Credit rating"
+        [placeholder]="investmentRequestDetails?.rating || ''"
+      ></app-input>
+      <app-input
+        [readonly]="true"
+        class="mb-3"
+        label="Application approval date"
+        [placeholder]="investmentRequestDetails?.approvedAt || ''"
+      ></app-input>
+    </form>
+    <app-button
+      [type]="buttonType.Submit"
+      [disabled]="form.disabled"
+      [color]="buttonColor.Danger"
+      class="btn-light w-100"
+      (click)="deleteRequest()"
+      >Remove request
+    </app-button>
+  </div>
+</div>

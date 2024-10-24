@@ -1,0 +1,203 @@
+@use "sass:map";
+@import "variables";
+@import "mixins/typography";
+@import "functions";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .head {
+    background-image: url("../../../../assets/img/sidenav-backgroud.svg");
+    background-size: cover;
+    padding: 40px 30px 14px 30px;
+
+    h2 {
+      @include typography("subtitle-semibold");
+      color: map.get($theme-colors, "primary");
+    }
+
+    .profile {
+      background-color: white;
+      border-radius: 24px;
+      padding: 18px;
+      gap: 16px;
+
+      border: 1px solid #fafbfb;
+      box-shadow: 0px 16px 16px rgba(1, 64, 143, 0.1);
+      border-radius: 12px;
+
+      .profile-flex {
+        display: flex;
+        margin-top: 10px;
+      }
+
+      .icon {
+        display: flex;
+        align-items: center;
+        border-radius: 8px;
+        padding: 10px;
+        color: map.get($theme-colors, "primary");
+        background-color: map.get($theme-colors, "light");
+
+        ui-icon {
+          width: 30px;
+        }
+      }
+
+      .profile-data {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 10px;
+
+        .name {
+          @include typography("body-semibold");
+          color: map.get($text-colors, "dark");
+        }
+
+        .email {
+          @include typography("labe-regular");
+          color: map.get($text-colors, "light");
+        }
+      }
+    }
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    width: 400px;
+    padding: 60px 60px 60px 47px;
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+      gap: 20px;
+      color: map.get($theme-colors, "black");
+
+      .plaid_logo {
+        width: 25px;
+        height: 25px;
+        margin-left: 0px;
+      }
+      .plaid_logo_text {
+        margin-left: 2px;
+      }
+      &__active {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        text-decoration: none;
+        padding: 10px;
+        color: map.get($theme-colors, "black");
+        border: none;
+        cursor: pointer;
+
+        &:hover {
+          background: map.get($theme-colors, "secondary");
+          border-radius: 10px;
+
+          ui-icon {
+            color: map.get($theme-colors, "white");
+          }
+
+          span {
+            color: map.get($theme-colors, "white");
+          }
+
+          .alert__dashboard_danger {
+            color: map.get($theme-colors, "danger");
+          }
+
+          .alert__dashboard_warning {
+            color: map.get($theme-colors, "warning");
+          }
+        }
+
+        &_inactive {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          text-decoration: none;
+          padding: 10px;
+          color: map.get($theme-colors, "disabled");
+          border: none;
+        }
+
+        ui-icon {
+          width: 27px;
+          color: map.get($theme-colors, "primary");
+        }
+
+        span {
+          @include typography("labe-regular");
+          color: map.get($theme-colors, "black");
+        }
+
+        .alert__dashboard_danger {
+          color: map.get($theme-colors, "danger");
+          height: 20px;
+          width: 20px;
+          margin-left: -10px;
+          background-color: white;
+          border-radius: 20px;
+          margin-bottom: 5px;
+        }
+
+        .alert__dashboard_warning {
+          color: map.get($theme-colors, "warning");
+          height: 20px;
+          width: 20px;
+          margin-left: -10px;
+          background-color: white;
+          border-radius: 20px;
+          margin-bottom: 5px;
+        }
+      }
+    }
+
+    .links_logout {
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+      gap: 20px;
+
+      &_link {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 10px;
+        text-decoration: none;
+        cursor: pointer;
+
+        &:hover {
+          background: map.get($theme-colors, "danger");
+          border-radius: 10px;
+
+          ui-icon {
+            color: map.get($theme-colors, "white");
+          }
+
+          span {
+            color: map.get($theme-colors, "white");
+          }
+        }
+
+        ui-icon {
+          width: 27px;
+          color: map.get($theme-colors, "primary");
+        }
+
+        span {
+          @include typography("labe-regular");
+          color: map.get($theme-colors, "black");
+        }
+      }
+    }
+  }
+}

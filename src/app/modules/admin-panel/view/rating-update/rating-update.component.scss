@@ -1,0 +1,90 @@
+@use "sass:map";
+@import "variables";
+@import "mixins/typography";
+@import "functions";
+
+:host {
+  padding: 64px 100px 64px 100px;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.head {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.rating {
+  border-radius: 20px;
+  padding: 20px;
+  margin-top: 30px;
+  background: map.get($theme-colors, "primary");
+  border: 2px solid map.get($theme-colors, "primary");
+
+  &__heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+
+    &_title {
+      color: map.get($theme-colors, "secondary");
+    }
+
+    &_button {
+      margin-bottom: 10px;
+    }
+  }
+
+  &__border {
+    border-bottom: 4px solid map.get($theme-colors, "secondary");
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+
+  &__units {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: map.get($theme-colors, "disabled");
+    margin-left: -20px;
+    margin-right: -20px;
+    border-bottom: 2px solid map.get($theme-colors, "primary");
+
+    &_column {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      margin: 10px 20px 10px 20px;
+
+      &_property {
+        color: map.get($theme-colors, "black");
+        background: map.get($theme-colors, "white");
+        border-radius: 10px 10px 0 0;
+        padding: 3px 10px 3px 10px;
+        width: 100%;
+      }
+
+      &_value {
+        color: map.get($theme-colors, "white");
+        background: map.get($theme-colors, "primary");
+        border-radius: 0 0 10px 10px;
+        padding: 3px 10px 3px 10px;
+        width: 100%;
+        border: none;
+        height: 35px;
+      }
+    }
+  }
+}

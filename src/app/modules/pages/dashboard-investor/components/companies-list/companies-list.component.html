@@ -1,0 +1,24 @@
+<div class="header">
+  <div class="d-flex justify-content-between">
+    <h2>Companies</h2>
+  </div>
+  <hr />
+</div>
+<div class="input__container">
+  <form [formGroup]="form" class="input__form">
+    <div class="input__wrapper">
+      <app-input
+        formControlName="search"
+        class="mt-3 w-50"
+        placeholder="Find the right company to invest in"
+      ></app-input>
+      <ui-icon class="icon__search" [type]="Icon.Search"></ui-icon>
+    </div>
+  </form>
+</div>
+<div class="companies" [ngClass]="{ loading: loading }">
+  <app-company-card
+    *ngFor="let item of businessOwners"
+    [businessOwner]="item"
+  ></app-company-card>
+</div>

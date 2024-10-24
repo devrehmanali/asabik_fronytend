@@ -1,0 +1,46 @@
+@use "sass:map";
+@import "variables";
+@import "mixins/typography";
+@import "functions";
+
+.appllication__header {
+  display: flex;
+  align-items: center;
+
+  .application__icon-back {
+    margin-right: 20px;
+    color: map.get($theme-colors, "primary");
+    cursor: pointer;
+    height: 30px;
+    padding-top: 10px;
+  }
+}
+
+.application__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.application__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 311px;
+
+  .application__text {
+    margin-bottom: 30px;
+    font-size: 14px;
+    color: map.get($theme-colors, "disabled");
+  }
+
+  .application__hr {
+    margin-bottom: 30px;
+  }
+
+  section,
+  form {
+    width: 100%;
+  }
+}

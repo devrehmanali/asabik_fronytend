@@ -1,0 +1,16 @@
+@use "sass:map";
+@import "../utils";
+
+@mixin typography($name, $typography: $typography-config) {
+  $props: map.get($typography, $name);
+  @if $props == null {
+    @warn 'Typography "#{$name}" not found';
+  }
+  @include propValue($props);
+}
+
+@mixin make-text($fontSize, $fontHeight, $fontWeight) {
+  font-size: $fontSize;
+  line-height: $fontHeight;
+  font-weight: $fontWeight;
+}

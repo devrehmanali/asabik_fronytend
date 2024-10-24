@@ -1,0 +1,252 @@
+<div>
+  <img class="splash" src="{{ imageSource }}" />
+  <div class="details">
+    <h3 class="companyName">{{ businessOwnerProfile?.companyName }}</h3>
+    <p class="ownerName">{{ businessOwnerProfile?.ownerName }}</p>
+    <div>
+      <p class="light">Main industry</p>
+      <p class="light">
+        {{
+          businessOwnerProfile?.businessSubsector?.businessSector?.business
+            ?.name
+        }}
+      </p>
+    </div>
+    <div>
+      <p class="light">Industry</p>
+      <p class="light">
+        {{ businessOwnerProfile?.businessSubsector?.businessSector?.name }}
+      </p>
+    </div>
+    <div>
+      <p class="light">Subindustry</p>
+      <p class="light">{{ businessOwnerProfile?.businessSubsector?.name }}</p>
+    </div>
+    <div>
+      <p class="light">Start date</p>
+      <p class="light">{{ businessOwnerProfile?.startDate }}</p>
+    </div>
+    <div>
+      <p class="light">Average monthly sales</p>
+      <p class="light">{{ businessOwnerProfile?.avrMonthlySales }} USD</p>
+    </div>
+    <div>
+      <p class="light">Average monthly net profit</p>
+      <p class="light">{{ businessOwnerProfile?.avrMonthlyNetProfit }} USD</p>
+    </div>
+    <div>
+      <p class="light">Total profit made last year</p>
+      <p class="light">
+        {{ businessOwnerProfile?.totalLastYearNetProfit }} USD
+      </p>
+    </div>
+    <div>
+      <p class="light">Number of employees</p>
+      <p class="light">{{ businessOwnerProfile?.employeesNo }}</p>
+    </div>
+    <section
+      class="actionButtons"
+      [ngStyle]="{
+        padding:
+          (businessOwnerProfile?.street === '' ||
+            businessOwnerProfile?.street === null ||
+            businessOwnerProfile?.city === '' ||
+            businessOwnerProfile?.city === null) &&
+          (businessOwnerProfile?.phone === '' ||
+            businessOwnerProfile?.phone === null) &&
+          (businessOwnerProfile?.website === '' ||
+            businessOwnerProfile?.website === null)
+            ? '0'
+            : '25px'
+      }"
+    >
+      <img
+        src="../../../../../../assets/icons/location.svg"
+        (click)="locationHandler()"
+        [hidden]="
+          businessOwnerProfile?.street === '' ||
+          businessOwnerProfile?.street === null ||
+          businessOwnerProfile?.city === '' ||
+          businessOwnerProfile?.city === null
+        "
+      />
+      <div class="actionPopup">
+        <h4>Click to copy business adress</h4>
+        <p>
+          {{ businessOwnerProfile?.city }}, {{ businessOwnerProfile?.street }}
+        </p>
+        <p id="addressCopied">Copied to clipboard!</p>
+      </div>
+      <img
+        src="../../../../../../assets/icons/phone.svg"
+        (click)="phoneHandler()"
+        [hidden]="
+          businessOwnerProfile?.phone === '' ||
+          businessOwnerProfile?.phone === null
+        "
+      />
+      <div class="actionPopup">
+        <h4>Click to copy business phone number</h4>
+        <p>{{ businessOwnerProfile?.phone }}</p>
+        <p id="phoneCopied">Copied to clipboard!</p>
+      </div>
+      <img
+        src="../../../../../../assets/icons/website.svg"
+        (click)="websiteHandler()"
+        [hidden]="
+          businessOwnerProfile?.website === '' ||
+          businessOwnerProfile?.website === null
+        "
+      />
+      <div class="actionPopup">
+        <h4>Click to visit business website</h4>
+        <p>https://{{ businessOwnerProfile?.website }}</p>
+      </div>
+    </section>
+    <div>
+      <div
+        class="businessDescription light"
+        [hidden]="
+          businessOwnerProfile?.businessDescription === '' ||
+          businessOwnerProfile?.businessDescription === null
+        "
+      >
+        <div class="description__title">Business description</div>
+        <br />
+        <span
+          class="description__text"
+          *ngIf="
+            businessOwnerProfile && businessOwnerProfile.businessDescription
+          "
+        >
+          {{
+            showMoreDescription
+              ? businessOwnerProfile.businessDescription
+              : (businessOwnerProfile.businessDescription | slice : 0 : 110)
+          }}
+        </span>
+        <span
+          class="description__button"
+          *ngIf="
+            businessOwnerProfile &&
+            businessOwnerProfile.businessDescription &&
+            businessOwnerProfile.businessDescription.length &&
+            businessOwnerProfile.businessDescription.length > 110
+          "
+          (click)="toggleShowMoreDescription()"
+        >
+          {{ showMoreDescription ? "-Show Less" : "...Show More" }}
+        </span>
+      </div>
+    </div>
+    <div
+      *ngFor="let request of businessOwnerProfile?.investmentRequests"
+      class="requestsContainer"
+    >
+      <div
+        class="investmentRequest"
+        [ngStyle]="{
+          border: '1px solid white'
+        }"
+      >
+        <label class="container">
+          <h4>{{ request?.purposeOfTheLoan }}</h4>
+        </label>
+        <p>Purpose of the loan description</p>
+        <div class="description">
+          <span
+            class="descriptionRequest__text"
+            *ngIf="request && request.loanPurpose"
+          >
+            {{
+              showMoreRequestLoanPurpose
+                ? request.loanPurpose
+                : (request.loanPurpose | slice : 0 : 80)
+            }}
+          </span>
+          <span
+            class="descriptionRequest__button"
+            *ngIf="
+              request &&
+              request.loanPurpose &&
+              request.loanPurpose.length &&
+              request.loanPurpose.length > 110
+            "
+            (click)="toggleShowMoreLoanPurpose()"
+          >
+            {{ showMoreRequestLoanPurpose ? "-Show Less" : "...Show More" }}
+          </span>
+        </div>
+        <p>How this help increase your profit</p>
+        <div class="description">
+          <span
+            class="descriptionRequest__text"
+            *ngIf="request && request.helpIncreaseProfit"
+          >
+            {{
+              showMoreHelpIncreaseProfit
+                ? request.helpIncreaseProfit
+                : (request.helpIncreaseProfit | slice : 0 : 80)
+            }}
+          </span>
+          <span
+            class="descriptionRequest__button"
+            *ngIf="
+              request &&
+              request.helpIncreaseProfit &&
+              request.helpIncreaseProfit.length &&
+              request.helpIncreaseProfit.length > 110
+            "
+            (click)="toggleShowMoreHelpIncreaseProfit()"
+          >
+            {{ showMoreHelpIncreaseProfit ? "-Show Less" : "...Show More" }}
+          </span>
+        </div>
+        <div>
+          <p>Credit Rating:</p>
+          <p>{{ request?.rating }}</p>
+        </div>
+        <div>
+          <p>Debt to Income ratio (DTI):</p>
+          <p>{{ request?.dti }}</p>
+        </div>
+        <div>
+          <p>PSR:</p>
+          <p>{{ request?.psr }}</p>
+        </div>
+        <div>
+          <p>Application status:</p>
+          <p>{{ request?.status }}</p>
+        </div>
+        <div>
+          <p>Offer expiry date:</p>
+          <p>{{ request?.expirationDate }}</p>
+        </div>
+        <div>
+          <p>Loan Term:</p>
+          <p>{{ request?.returnTerm }} months</p>
+        </div>
+        <div>
+          <p>Max loan approved:</p>
+          <p>{{ request?.requiredCapital }} USD</p>
+        </div>
+        <div>
+          <p>Amount left to meet the target:</p>
+          <p>{{ request?.amountToMeetTarget }} USD</p>
+        </div>
+        <div>
+          <p>Profit the owner id willing to share:</p>
+          <p>{{ request?.netReturnToShare }} USD</p>
+        </div>
+        <div>
+          <p>Profit increase during the year:</p>
+          <p>{{ request?.profitIncrease }} USD</p>
+        </div>
+        <div>
+          <p>Number of Investors:</p>
+          <p>{{ request?.numberOfInvestors }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

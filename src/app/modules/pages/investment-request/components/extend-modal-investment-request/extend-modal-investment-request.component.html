@@ -1,0 +1,23 @@
+<div class="modal__container">
+  <img src="../../../../assets/img/asabik-logo.svg" />
+  <h2 class="modal__text">
+    Request expired without sufficient funding - do you want to extend the
+    raising period by another 7 days?
+  </h2>
+  <div class="modal__buttons-container">
+    <app-button
+      [type]="buttonType.Submit"
+      [color]="buttonColor.Primary"
+      class="btn-light modal__button"
+      (click)="extendRaisingTime()"
+      >Accept
+    </app-button>
+    <app-button
+      [type]="buttonType.Submit"
+      [color]="buttonColor.Light"
+      class="btn-light modal__button"
+      (click)="closeModal()"
+      >Close
+    </app-button>
+  </div>
+</div>

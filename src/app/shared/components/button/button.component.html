@@ -1,0 +1,9 @@
+<button
+  [disabled]="disabled"
+  [type]="type"
+  class="btn-{{ color }} icon-placement-{{ iconPlacement }}"
+  [ngClass]="{ compact: compact }"
+>
+  <ui-icon *ngIf="icon" [type]="icon"></ui-icon>
+  <ng-content></ng-content>
+</button>

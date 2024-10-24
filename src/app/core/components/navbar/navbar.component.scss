@@ -1,0 +1,28 @@
+@use "sass:map";
+@import "variables";
+@import "functions";
+
+:host {
+  width: 100%;
+  nav {
+    display: flex;
+    justify-content: space-between;
+
+    .menu-wraper {
+      display: flex;
+      width: 33%;
+      gap: 10px;
+
+      color: map.get($text-colors, "disabled");
+      text-align: center;
+
+      .active {
+        color: map.get($theme-colors, "secondary");
+      }
+    }
+
+    .logo {
+      height: 30px;
+    }
+  }
+}

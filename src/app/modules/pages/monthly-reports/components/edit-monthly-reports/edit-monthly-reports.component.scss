@@ -1,0 +1,130 @@
+@use "sass:map";
+@import "variables";
+@import "mixins/typography";
+@import "functions";
+
+:host {
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .header {
+      align-self: flex-start;
+      width: 100%;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 311px;
+
+      section,
+      form {
+        width: 100%;
+      }
+    }
+  }
+
+  span.net-return {
+    width: 80px;
+    padding: 10px;
+    color: map.get($text-colors, "dark");
+    text-align: center;
+  }
+
+  h1 {
+    @include typography("heading-bold");
+    color: map.get($text-colors, "dark");
+  }
+
+  h4 {
+    font-weight: 400;
+    color: map.get($text-colors, "disabled");
+    margin: getSpacers(4, 0);
+  }
+
+  .delete-button {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 10px;
+
+    p,
+    ui-icon {
+      color: map.get($theme-colors, "info") !important;
+    }
+  }
+
+  .text__request {
+    margin-bottom: 30px;
+    font-size: 14px;
+    color: rgb(192, 190, 190);
+  }
+
+  .application__details {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-top: -10px;
+    color: rgb(74, 164, 253);
+
+    .application__text {
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 14px;
+      color: rgb(74, 164, 253);
+    }
+
+    .application__icon {
+      transform: rotate(180deg);
+      margin-left: 15px;
+      height: 15px;
+    }
+  }
+
+  .buttons__accept {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    app-button {
+      width: 200px;
+      margin: 5px;
+
+      .input__valid {
+        border: 2px solid red;
+      }
+    }
+  }
+
+  .textarea {
+    height: 260px;
+  }
+
+  .textarea_monthly_reports {
+    height: 250px;
+  }
+
+  .char-count {
+    display: flex;
+    justify-content: start;
+    margin-top: -110px;
+    margin-left: 10px;
+    margin-bottom: 30px;
+    font-size: 14px;
+    color: map.get($theme-colors, "disabled");
+  }
+
+  .char-count_monthly_reports {
+    display: flex;
+    justify-content: start;
+    margin-top: -50px;
+    margin-left: 10px;
+    margin-bottom: 30px;
+    font-size: 14px;
+    color: map.get($theme-colors, "disabled");
+  }
+}

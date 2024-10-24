@@ -1,0 +1,276 @@
+<div>
+  <div class="d-flex justify-content-end">
+    <ui-icon
+      [type]="icon.Close"
+      class="m-4 company__close"
+      (click)="closeDialog()"
+    ></ui-icon>
+  </div>
+  <img src="{{ companyDetails?.imgUrl }}" />
+  <div class="details">
+    <h3 class="companyName">{{ companyDetails?.companyName }}</h3>
+    <p class="ownerName">{{ companyDetails?.ownerName }}</p>
+    <div>
+      <p class="light">Main industry</p>
+      <p class="light">
+        {{ companyDetails?.businessSubsector?.businessSector?.business?.name }}
+      </p>
+    </div>
+    <div>
+      <p class="light">Industry</p>
+      <p class="light">
+        {{ companyDetails?.businessSubsector?.businessSector?.name }}
+      </p>
+    </div>
+    <div>
+      <p class="light">Subindustry</p>
+      <p class="light">{{ companyDetails?.businessSubsector?.name }}</p>
+    </div>
+    <div>
+      <p class="light">Start date</p>
+      <p class="light">{{ companyDetails?.startDate }}</p>
+    </div>
+    <div>
+      <p class="light">Average monthly sales</p>
+      <p class="light">{{ companyDetails?.avrMonthlySales }} USD</p>
+    </div>
+    <div>
+      <p class="light">Average monthly net profit</p>
+      <p class="light">{{ companyDetails?.avrMonthlyNetProfit }} USD</p>
+    </div>
+    <div>
+      <p class="light">Total profit made last year</p>
+      <p class="light">{{ companyDetails?.totalLastYearNetProfit }} USD</p>
+    </div>
+    <div>
+      <p class="light">Number of employees</p>
+      <p class="light">{{ companyDetails?.employeesNo }}</p>
+    </div>
+    <section class="actionButtons">
+      <img
+        src="../../../../../../assets/icons/location.svg"
+        (click)="locationHandler()"
+        [hidden]="
+          companyDetails?.street === '' ||
+          companyDetails?.street === undefined ||
+          companyDetails?.city === '' ||
+          companyDetails?.city === undefined
+        "
+      />
+      <div
+        class="actionPopup"
+        *ngIf="isInvested; else notInvestedContentAddress"
+      >
+        <h4>Click to copy business address</h4>
+        <p>{{ companyDetails?.city }}, {{ companyDetails?.street }}</p>
+        <p id="addressCopied">Copied to clipboard!</p>
+      </div>
+      <ng-template #notInvestedContentAddress>
+        <div class="actionPopup">
+          <h4>You have to invest to see the city and address street</h4>
+        </div>
+      </ng-template>
+      <img
+        src="../../../../../../assets/icons/phone.svg"
+        (click)="phoneHandler()"
+        [hidden]="
+          companyDetails?.phone === '' || companyDetails?.phone === undefined
+        "
+      />
+      <div class="actionPopup" *ngIf="isInvested; else notInvestedContentPhone">
+        <h4>Click to copy business phone number</h4>
+        <p>{{ companyDetails?.phone }}</p>
+        <p id="phoneCopied">Copied to clipboard!</p>
+      </div>
+      <ng-template #notInvestedContentPhone>
+        <div class="actionPopup">
+          <h4>You have to invest to see the phone number</h4>
+        </div>
+      </ng-template>
+      <img
+        src="../../../../../../assets/icons/website.svg"
+        (click)="websiteHandler()"
+        [hidden]="
+          companyDetails?.website === '' ||
+          companyDetails?.website === undefined
+        "
+      />
+      <div
+        class="actionPopup"
+        *ngIf="isInvested; else notInvestedContentWebsite"
+      >
+        <h4>Click to visit business website</h4>
+        <p>https://{{ companyDetails?.website }}</p>
+      </div>
+      <ng-template #notInvestedContentWebsite>
+        <div class="actionPopup">
+          <h4>You have to invest to see the website</h4>
+        </div>
+      </ng-template>
+    </section>
+    <div>
+      <div class="businessDescription light">
+        <div class="description__title">Business description</div>
+        <br />
+        <span
+          class="description__text"
+          *ngIf="companyDetails && companyDetails.description"
+        >
+          {{
+            showMoreDescription
+              ? companyDetails.description
+              : (companyDetails.description | slice : 0 : 110)
+          }}
+        </span>
+        <span
+          class="description__button"
+          *ngIf="
+            companyDetails &&
+            companyDetails.description &&
+            companyDetails.description.length &&
+            companyDetails.description.length > 110
+          "
+          (click)="toggleShowMoreDescription()"
+        >
+          {{ showMoreDescription ? "-Show Less" : "...Show More" }}
+        </span>
+      </div>
+    </div>
+    <div
+      *ngFor="let request of companyDetails?.investmentRequests"
+      class="requestsContainer"
+    >
+      <div
+        class="investmentRequest"
+        [ngStyle]="{
+          border:
+            requestIdToInvest === request.id
+              ? '1px solid #fb9746'
+              : '1px solid white'
+        }"
+      >
+        <label class="container">
+          <input
+            type="checkbox"
+            [checked]="requestIdToInvest === request.id"
+            (change)="
+              chooseInvestmentRequest(
+                $event,
+                request.id,
+                request.purposeOfTheLoan,
+                request.requiredCapital
+              )
+            "
+          />
+          <span class="checkmark"></span>
+          <h4>{{ request?.purposeOfTheLoan }}</h4>
+        </label>
+        <p>Purpose of the loan description</p>
+        <div class="description">
+          <span
+            class="descriptionRequest__text"
+            *ngIf="request && request.loanPurpose"
+          >
+            {{
+              showMoreRequestLoanPurpose
+                ? request.loanPurpose
+                : (request.loanPurpose | slice : 0 : 80)
+            }}
+          </span>
+          <span
+            class="descriptionRequest__button"
+            *ngIf="
+              request &&
+              request.loanPurpose &&
+              request.loanPurpose.length &&
+              request.loanPurpose.length > 110
+            "
+            (click)="toggleShowMoreLoanPurpose()"
+          >
+            {{ showMoreRequestLoanPurpose ? "-Show Less" : "...Show More" }}
+          </span>
+        </div>
+        <p>How this help increase your profit</p>
+        <div class="description">
+          <span
+            class="descriptionRequest__text"
+            *ngIf="request && request.helpIncreaseProfit"
+          >
+            {{
+              showMoreHelpIncreaseProfit
+                ? request.helpIncreaseProfit
+                : (request.helpIncreaseProfit | slice : 0 : 80)
+            }}
+          </span>
+          <span
+            class="descriptionRequest__button"
+            *ngIf="
+              request &&
+              request.helpIncreaseProfit &&
+              request.helpIncreaseProfit.length &&
+              request.helpIncreaseProfit.length > 110
+            "
+            (click)="toggleShowMoreHelpIncreaseProfit()"
+          >
+            {{ showMoreHelpIncreaseProfit ? "-Show Less" : "...Show More" }}
+          </span>
+        </div>
+        <div>
+          <p>Credit Rating:</p>
+          <p>{{ request?.rating }}</p>
+        </div>
+        <div>
+          <p>Projected Yearly Net Return:</p>
+          <p>{{ request?.projectedNetReturn }}</p>
+        </div>
+        <div>
+          <p>PSR:</p>
+          <p>{{ request?.psr }}</p>
+        </div>
+        <div>
+          <p>Debt to Income ratio (DTI):</p>
+          <p>{{ request?.dti }}</p>
+        </div>
+        <div>
+          <p>Application status:</p>
+          <p>{{ request?.status }}</p>
+        </div>
+        <div>
+          <p>Offer expiry date:</p>
+          <p>{{ request?.expirationDate }}</p>
+        </div>
+        <div>
+          <p>Loan Term:</p>
+          <p>{{ request?.returnTerm }} months</p>
+        </div>
+        <div>
+          <p>Max loan approved:</p>
+          <p>{{ request?.requiredCapital }} USD</p>
+        </div>
+        <div>
+          <p>Amount left to meet the target:</p>
+          <p>{{ request?.amountToMeetTarget }} USD</p>
+        </div>
+        <div>
+          <p>Profit the owner id willing to share:</p>
+          <p>{{ request?.netReturnToShare }} USD</p>
+        </div>
+        <div>
+          <p>Profit increase during the year:</p>
+          <p>{{ request?.profitIncrease }} USD</p>
+        </div>
+        <div>
+          <p>Number of Investors:</p>
+          <p>{{ request?.numberOfInvestors }}</p>
+        </div>
+      </div>
+    </div>
+    <app-button
+      [disabled]="requestIdToInvest === -1"
+      class="invest-button"
+      [color]="buttonColor.Secondary"
+      (click)="investHandler()"
+      >Invest</app-button
+    >
+  </div>
+</div>

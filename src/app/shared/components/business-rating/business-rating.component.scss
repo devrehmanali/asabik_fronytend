@@ -1,0 +1,34 @@
+@use "sass:map";
+@import "variables";
+@import "mixins/typography";
+@import "functions";
+
+$rating-colors: (
+  "Aaa": map.get($theme-colors, "success"),
+  "Aa1": $green-800,
+  "Aa2": $green-800,
+  "Aa3": $green-800,
+  "A1": $green-800,
+  "A2": $green-800,
+  "A3": $green-800,
+  "Baa1": $green-900,
+  "Baa2": $green-900,
+  "Baa3": $green-900,
+  "Junk": #b31217,
+);
+
+:host {
+  .business-rating {
+    @each $name, $color in $rating-colors {
+      &-label[data-business-rating="#{$name}"] {
+        color: white;
+        background-color: $color;
+        padding: getSpacers(1, 4);
+        border-radius: 16px;
+      }
+      &-text[data-business-rating="#{$name}"] {
+        color: $color;
+      }
+    }
+  }
+}

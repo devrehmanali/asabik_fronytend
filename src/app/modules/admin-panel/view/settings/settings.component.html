@@ -1,0 +1,318 @@
+<div class="head">
+  <h1 class="heading-bold">Settings</h1>
+  <app-button
+    [compact]="true"
+    [color]="buttonColor.Light"
+    class="plaid"
+    *ngIf="tokenFetched"
+    ngxPlaidLink
+    [token]="linkToken"
+    (Success)="onSuccess($event)"
+    (Exit)="onExit($event)"
+    (Event)="onEvent($event)"
+    (Load)="onLoad($event)"
+    (Click)="onClick($event)"
+    ><img
+      class="plaid-logo"
+      src="../../../../assets/img/plaid_logo.svg"
+      alt="Plaid logo"
+  /></app-button>
+  <app-button
+    [color]="currentButtonColor"
+    [icon]="currentIcon"
+    (click)="onSave()"
+    >Save</app-button
+  >
+</div>
+
+<div class="settings__card-container">
+  <div class="settings__card">
+    <h4 class="settings__card__title">Current R value</h4>
+    <hr class="w-100" />
+    <div class="settings__card__description">
+      R value is the risk value used in the Investment Grade calculation
+    </div>
+
+    <div class="amount-field-group" style="margin-top: 40px">
+      <div class="amount-field mt-2">
+        <input
+          type="number"
+          [(ngModel)]="r"
+          inputmode="none"
+          (wheel)="(false)"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="settings__card">
+    <h4 class="settings__card__title">Current M value</h4>
+    <hr class="w-100" />
+    <div class="settings__card__description">
+      M value the multiplying value used in the Investment Grade calculation
+    </div>
+
+    <div class="amount-field-group" style="margin-top: 40px">
+      <div class="amount-field mt-2">
+        <input
+          type="number"
+          [(ngModel)]="m"
+          inputmode="none"
+          (wheel)="(false)"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="settings__card">
+    <h4 class="settings__card__title">Current A value</h4>
+    <hr class="w-100" />
+    <div class="settings__card__description">
+      A value is the addition used in the Investment Grade calculation
+    </div>
+    <div class="amount-field-group" style="margin-top: 40px">
+      <div class="amount-field mt-2">
+        <input
+          type="number"
+          [(ngModel)]="a"
+          inputmode="none"
+          (wheel)="(false)"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="settings__card">
+    <h4 class="settings__card__title">Current Investment Raising time limit</h4>
+    <hr class="w-100" />
+    <div class="settings__card__description">
+      The maximum amount of days businesses can wait for the investors to join
+    </div>
+
+    <div
+      class="amount-field-group"
+      style="margin-top: 60px; margin-bottom: -100px"
+    >
+      <div class="amount-field mt-2">
+        <span>Days</span>
+        <input
+          type="text"
+          [(ngModel)]="raisingTimeLimit"
+          inputmode="none"
+          (keydown)="(false)"
+          (wheel)="(false)"
+        />
+        <div class="amount-field_arrows" style="margin-left: -40px">
+          <ui-icon
+            class="amount-field_arrows_up"
+            [type]="icon.ArrowUp"
+            (click)="incrementValue('raisingTimeLimit')"
+          ></ui-icon>
+          <ui-icon
+            class="amount-field_arrows_down"
+            [type]="icon.ArrowDown"
+            (click)="decrementValue('raisingTimeLimit')"
+          ></ui-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings__card">
+    <h4 class="settings__card__title">Maximum Automatic Loan Term</h4>
+    <hr class="w-100" />
+    <div class="settings__card__description">
+      Loans with a term exceeding this time will require manual approval
+    </div>
+
+    <div
+      class="amount-field-group"
+      style="margin-top: 65px; margin-bottom: -100px"
+    >
+      <div class="amount-field mt-2">
+        <span>Years</span>
+        <input
+          type="text"
+          [(ngModel)]="maxReturnTermWOManualProcessing"
+          max="5"
+          inputmode="none"
+          (keydown)="(false)"
+          (wheel)="(false)"
+        />
+        <div class="amount-field_arrows" style="margin-left: -40px">
+          <ui-icon
+            class="amount-field_arrows_up"
+            [type]="icon.ArrowUp"
+            (click)="incrementValue('maxReturnTermWOManualProcessing')"
+          ></ui-icon>
+          <ui-icon
+            class="amount-field_arrows_down"
+            [type]="icon.ArrowDown"
+            (click)="decrementValue('maxReturnTermWOManualProcessing')"
+          ></ui-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings__card">
+    <h4 class="settings__card__title">Loan Range</h4>
+    <hr class="w-100" />
+    <div class="settings__card__description">
+      The minimal and the maximal amount of money Business Owners can request
+      [USD]
+    </div>
+    <div class="settings__card__input-container">
+      <div class="amount-field-group mb-1 mt-3">
+        <div class="amount-field mt-2">
+          <span>USD</span>
+          <input
+            type="text"
+            [(ngModel)]="minLoan"
+            inputmode="none"
+            (keydown)="(false)"
+            (wheel)="(false)"
+          />
+          <div class="amount-field_arrows" style="margin-left: -40px">
+            <ui-icon
+              class="amount-field_arrows_up"
+              [type]="icon.ArrowUp"
+              (click)="incrementValue('minLoan')"
+            ></ui-icon>
+            <ui-icon
+              class="amount-field_arrows_down"
+              [type]="icon.ArrowDown"
+              (click)="decrementValue('minLoan')"
+            ></ui-icon>
+          </div>
+        </div>
+      </div>
+
+      -
+
+      <div class="amount-field-group mt-1">
+        <div class="amount-field mt-2">
+          <span>USD</span>
+          <input
+            type="text"
+            [(ngModel)]="maxLoan"
+            inputmode="none"
+            (keydown)="(false)"
+            (wheel)="(false)"
+          />
+          <div class="amount-field_arrows" style="margin-left: -40px">
+            <ui-icon
+              class="amount-field_arrows_up"
+              [type]="icon.ArrowUp"
+              (click)="incrementValue('maxLoan')"
+            ></ui-icon>
+            <ui-icon
+              class="amount-field_arrows_down"
+              [type]="icon.ArrowDown"
+              (click)="decrementValue('maxLoan')"
+            ></ui-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings__card">
+    <h4 class="settings__card__title">Invalid Transaction Penalty</h4>
+    <hr class="w-100" />
+    <div class="settings__card__description">
+      Penalty for rejected Transaction
+    </div>
+
+    <div class="amount-field-group" style="margin-top: 40px">
+      <div class="amount-field mt-2">
+        <span>USD</span>
+        <input
+          type="text"
+          [(ngModel)]="invalidTransactionPenalty"
+          inputmode="none"
+          (keydown)="(false)"
+          (wheel)="(false)"
+        />
+        <div class="amount-field_arrows" style="margin-left: -40px">
+          <ui-icon
+            class="amount-field_arrows_up"
+            [type]="icon.ArrowUp"
+            (click)="incrementValue('invalidTransactionPenalty')"
+          ></ui-icon>
+          <ui-icon
+            class="amount-field_arrows_down"
+            [type]="icon.ArrowDown"
+            (click)="decrementValue('invalidTransactionPenalty')"
+          ></ui-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings__card">
+    <h4 class="settings__card__title">Plaid Token Penalty</h4>
+    <hr class="w-100" />
+    <div class="settings__card__description">
+      Penalty for invalid Plaid Token (for a Business Owner)
+    </div>
+
+    <div class="amount-field-group" style="margin-top: 20px">
+      <div class="amount-field mt-2">
+        <span>USD</span>
+        <input
+          type="text"
+          [(ngModel)]="plaidTokenPenalty"
+          inputmode="none"
+          (keydown)="(false)"
+          (wheel)="(false)"
+        />
+        <div class="amount-field_arrows" style="margin-left: -40px">
+          <ui-icon
+            class="amount-field_arrows_up"
+            [type]="icon.ArrowUp"
+            (click)="incrementValue('plaidTokenPenalty')"
+          ></ui-icon>
+          <ui-icon
+            class="amount-field_arrows_down"
+            [type]="icon.ArrowDown"
+            (click)="decrementValue('plaidTokenPenalty')"
+          ></ui-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings__card">
+    <h4 class="settings__card__title">Application Fee</h4>
+    <hr class="w-100" />
+    <div class="settings__card__description">
+      Enter the amount to be paid as Application Fee
+    </div>
+
+    <div class="amount-field-group" style="margin-top: 40px">
+      <div class="amount-field mt-2">
+        <span>USD</span>
+        <input
+          type="text"
+          [(ngModel)]="applicationFee"
+          inputmode="none"
+          (keydown)="(false)"
+          (wheel)="(false)"
+        />
+        <div class="amount-field_arrows" style="margin-left: -40px">
+          <ui-icon
+            class="amount-field_arrows_up"
+            [type]="icon.ArrowUp"
+            (click)="incrementValue('applicationFee')"
+          ></ui-icon>
+          <ui-icon
+            class="amount-field_arrows_down"
+            [type]="icon.ArrowDown"
+            (click)="decrementValue('applicationFee')"
+          ></ui-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,323 @@
+<div class="container">
+  <!-- ------------------------------- HEADER -------------------------------- -->
+  <div class="header">
+    <div class="d-flex justify-content-between">
+      <h1>Investment Request</h1>
+      <ui-icon
+        role="button"
+        class="text-primary"
+        [type]="icon.Preview"
+        (click)="navigateToPreview()"
+      ></ui-icon>
+    </div>
+    <hr />
+  </div>
+  <hr />
+  <div class="content">
+    <section>
+      <!-- --------------------------- ADD INVESTMENT ---------------------------- -->
+      <app-button
+        (click)="addInvestmentRequest()"
+        [color]="buttonColor.Secondary"
+        [icon]="icon.Add"
+        [disabled]="businessOwner.isValidForRequest ? form.disabled : true"
+        class="mb-4"
+      >
+        Add investment request
+      </app-button>
+      <form [formGroup]="form" class="form" (submit)="submitRequest()">
+        <div *ngIf="investmentRequestsLoaded">
+          <div class="pt-6" *ngFor="let id of newInvestmentsRequestsControlIds">
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Purpose of the loan</mat-label>
+              <mat-select
+                formControlName="newPurposeOfTheLoan-{{ id }}"
+                disableRipple
+              >
+                <mat-option
+                  *ngFor="let item of loanPurposeList"
+                  [value]="item.value"
+                  >{{ item.name }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+            <app-input
+              formControlName="newLoanPurpose-{{ id }}"
+              class="textarea mb-8"
+              label="Purpose of the loan description"
+              (input)="onDescriptionChange('newLoanPurpose', id)"
+              [type]="inputType.Textarea"
+            ></app-input>
+            <div class="char-count">{{ charCount2 }}/{{ maxLength }}</div>
+            <app-input
+              formControlName="newHelpIncreaseProfit-{{ id }}"
+              class="textarea mb-8"
+              label="How this fund will help increase your profit"
+              (input)="onDescriptionChange('newHelpIncreaseProfit', id)"
+              [type]="inputType.Textarea"
+            ></app-input>
+            <div class="char-count">{{ charCount3 }}/{{ maxLength }}</div>
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Return term</mat-label>
+              <mat-select
+                formControlName="newReturnTerm-{{ id }}"
+                disableRipple
+              >
+                <mat-option
+                  *ngFor="let item of returnTermList"
+                  [value]="item.months"
+                  >{{ item.months }} months</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+            <div class="text__request">
+              Return term exceeding 36 months will require manual approval, thus
+              might take more time to be reviewed
+            </div>
+            <app-input
+              formControlName="newRequiredCapital-{{ id }}"
+              class="mb-3"
+              label="Total required capital"
+              [type]="inputType.Number"
+              prefix="USD"
+            ></app-input>
+            <app-input
+              formControlName="newNetReturn-{{ id }}"
+              class="mb-3"
+              label="Expected profit"
+              [type]="inputType.Number"
+              prefix="USD"
+            ></app-input>
+            <app-input
+              formControlName="newNetReturnToShare-{{ id }}"
+              class="mb-3"
+              label="Profit willing to share with investors"
+              [type]="inputType.Number"
+              prefix="USD"
+            ></app-input>
+            <app-input
+              formControlName="newProfitIncrease-{{ id }}"
+              class="mb-3"
+              label="Investment increase after a year"
+              [type]="inputType.Number"
+              prefix="USD"
+            ></app-input>
+            <div class="text__request">
+              The cost of the loan is USD 500.00 which will be added to the
+              total payback amount, together with the amount of the profit
+              willing to share. There are no other costs.
+            </div>
+            <div
+              *ngFor="
+                let investmentRequest of businessOwner?.investmentRequests
+              "
+            >
+              <div
+                role="button"
+                class="application__details"
+                (click)="navigateToDetails(investmentRequest.id)"
+              >
+                <p class="application__text">Application details</p>
+                <ui-icon
+                  class="application__icon"
+                  [type]="icon.ArrowLeft"
+                ></ui-icon>
+              </div>
+            </div>
+            <div class="buttons__accept">
+              <app-button
+                [type]="buttonType.Submit"
+                [disabled]="form.disabled"
+                [color]="buttonColor.Light"
+                class="btn-light"
+                (click)="removeNewInvestmentRequest(id)"
+                >Cancel</app-button
+              >
+              <app-button [type]="buttonType.Submit" [disabled]="form.disabled"
+                >Submit</app-button
+              >
+            </div>
+            <hr class="my-4" />
+          </div>
+          <!-- -------------------------- INVESTMENT RESULT -------------------------- -->
+
+          <div
+            class="pt-6 mb-4"
+            *ngFor="let investmentRequest of businessOwner?.investmentRequests"
+            #investmentrequestElement
+          >
+            <app-input
+              formControlName="purposeOfTheLoan-{{ investmentRequest.id }}"
+              class="mb-3"
+              label="Purpose of the loan"
+              [readonly]="true"
+            ></app-input>
+            <app-input
+              formControlName="loanPurpose-{{ investmentRequest.id }}"
+              [class.textarea]="investmentRequest.canEdit"
+              [class.mb-8]="investmentRequest.canEdit"
+              [class.mb-3]="!investmentRequest.canEdit"
+              label="Purpose of the loan description"
+              (input)="
+                onDescriptionChange(
+                  'editLoanPurpose',
+                  investmentRequest.id,
+                  $event
+                )
+              "
+              [type]="inputType.Textarea"
+              [readonly]="!investmentRequest.canEdit"
+            ></app-input>
+            <div *ngIf="investmentRequest.canEdit" class="char-count">
+              {{ charCount4 }}/{{ maxLength }}
+            </div>
+            <app-input
+              formControlName="helpIncreaseProfit-{{ investmentRequest.id }}"
+              [class.textarea]="investmentRequest.canEdit"
+              [class.mb-8]="investmentRequest.canEdit"
+              [class.mb-3]="!investmentRequest.canEdit"
+              label="How this fund will help increase your profit"
+              (input)="
+                onDescriptionChange(
+                  'editHelpIncreaseProfit',
+                  investmentRequest.id,
+                  $event
+                )
+              "
+              [type]="inputType.Textarea"
+              [readonly]="!investmentRequest.canEdit"
+            ></app-input>
+            <div *ngIf="investmentRequest.canEdit" class="char-count">
+              {{ charCount5 }}/{{ maxLength }}
+            </div>
+            <div class="d-flex mb-3 gap-3">
+              <app-input
+                formControlName="returnTerm-{{ investmentRequest.id }}"
+                label="Return term"
+                [readonly]="true"
+              ></app-input>
+            </div>
+            <app-input
+              formControlName="requiredCapital-{{ investmentRequest.id }}"
+              class="mb-3"
+              label="Total required capital"
+              [type]="inputType.Number"
+              [readonly]="true"
+              prefix="USD"
+            ></app-input>
+            <app-input
+              formControlName="netReturn-{{ investmentRequest.id }}"
+              class="mb-3"
+              label="Expected profit"
+              [type]="inputType.Number"
+              [readonly]="!investmentRequest.canEdit"
+              prefix="USD"
+            ></app-input>
+            <app-input
+              formControlName="netReturnToShare-{{ investmentRequest.id }}"
+              class="mb-3"
+              label="Profit willing to share with investors"
+              [readonly]="!investmentRequest.canEdit"
+              [type]="inputType.Number"
+              prefix="USD"
+            ></app-input>
+            <app-input
+              formControlName="profitIncrease-{{ investmentRequest.id }}"
+              class="mb-3"
+              label="Investment increase after a year"
+              [readonly]="true"
+              [type]="inputType.Number"
+              prefix="USD"
+            ></app-input>
+            <app-input
+              formControlName="status-{{ investmentRequest.id }}"
+              class="mb-3"
+              prefix="Request status:"
+              [readonly]="true"
+            ></app-input>
+            <app-input
+              formControlName="percentageRaised-{{ investmentRequest.id }}"
+              class="mb-3"
+              prefix="Currently raised:"
+              [readonly]="true"
+            ></app-input>
+            <app-input
+              formControlName="timeLeft-{{ investmentRequest.id }}"
+              class="mb-3"
+              prefix="Raising time left:"
+              [readonly]="true"
+            ></app-input>
+
+            <!-- --------------------- INVESTMENT RESULT (FOOTER) ---------------------- -->
+            <app-button
+              class="mb-3"
+              [type]="buttonType.Submit"
+              [color]="buttonColor.White"
+              (click)="navigateToDetails(investmentRequest.id)"
+              >Application details</app-button
+            >
+            <app-button
+              class="mb-3"
+              [type]="buttonType.Submit"
+              [color]="buttonColor.White"
+              (click)="navigateToInstallments(investmentRequest.id)"
+              *ngIf="investmentRequest.status === InvestmentStatus.TRANSFERED"
+            >
+              Installments
+            </app-button>
+            <div class="buttons__accept">
+              <app-button
+                [type]="buttonType.Submit"
+                *ngIf="investmentRequest.isEligible"
+                [color]="buttonColor.Danger"
+                class="btn-light"
+                (click)="declineInvestmentRequest(investmentRequest)"
+              >
+                <ng-container *ngIf="!isDecliningInvestment; else iconContent">
+                  Decline
+                </ng-container>
+                <ng-template #iconContent>
+                  <ui-icon
+                    role="button"
+                    class="text-white spin"
+                    [type]="icon.Spin"
+                    (click)="navigateToPreview()"
+                  ></ui-icon>
+                </ng-template>
+              </app-button>
+
+              <app-button
+                [type]="buttonType.Submit"
+                [color]="buttonColor.Success"
+                *ngIf="investmentRequest.isEligible"
+                (click)="acceptInvestmentRequest(investmentRequest)"
+              >
+                <ng-container *ngIf="!isAcceptingInvestment; else iconContent">
+                  Accept
+                </ng-container>
+                <ng-template #iconContent>
+                  <ui-icon
+                    role="button"
+                    class="text-white spin"
+                    [type]="icon.Spin"
+                    (click)="navigateToPreview()"
+                  ></ui-icon>
+                </ng-template>
+              </app-button>
+            </div>
+            <app-button
+              *ngIf="investmentRequest.canEdit"
+              (click)="updateInvestmentRequest(investmentRequest.id)"
+              [color]="buttonColor.Secondary"
+              [disabled]="form.disabled"
+              class="mb-4 mt-4"
+            >
+              Update Investment Request
+            </app-button>
+            <hr class="my-4" />
+          </div>
+        </div>
+      </form>
+    </section>
+  </div>
+</div>

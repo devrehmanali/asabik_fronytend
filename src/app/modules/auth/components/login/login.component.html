@@ -1,0 +1,37 @@
+<div class="app-container">
+  <h1 class="heading-bold text-dark mb-5">Log in to continue</h1>
+  <form [formGroup]="form" class="form pt-4" (submit)="login()">
+    <app-input
+      formControlName="email"
+      class="mb-5"
+      placeholder="Email"
+    ></app-input>
+    <app-input
+      formControlName="password"
+      class="mb-7"
+      [type]="inputType.Password"
+      placeholder="Password"
+    ></app-input>
+    <app-button
+      [disabled]="form.disabled"
+      class="mb-4"
+      [color]="buttonColor.Secondary"
+      >Log in</app-button
+    >
+    <app-button
+      [disabled]="form.disabled"
+      class="mb-3"
+      [color]="buttonColor.Light"
+      [routerLink]="[link.ForgotPassword]"
+      >Forgot Password?
+    </app-button>
+    <p class="text-medium body-regular text-center">Or</p>
+    <app-button
+      [disabled]="form.disabled"
+      class="mt-3"
+      [color]="buttonColor.Primary"
+      [routerLink]="[link.SignUp]"
+      >Sign up
+    </app-button>
+  </form>
+</div>

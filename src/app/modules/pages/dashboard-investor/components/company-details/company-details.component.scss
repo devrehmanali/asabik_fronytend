@@ -1,0 +1,234 @@
+@use "sass:map";
+@import "variables";
+@import "mixins/typography";
+@import "functions";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  .companyName,
+  .ownerName {
+    justify-content: flex-start;
+    width: inherit;
+    padding-inline: 35px;
+    margin-bottom: 5px;
+  }
+  .invest-button {
+    width: 395px;
+    align-self: center;
+    margin-top: 25px;
+  }
+  p {
+    color: map.get($text-colors, "dark");
+    span {
+      font-weight: 700;
+    }
+  }
+  img {
+    width: 800px;
+    object-fit: cover;
+  }
+  .actionButtons {
+    padding: 25px;
+    display: flex;
+    justify-content: flex-start;
+    width: inherit;
+    .actionPopup {
+      display: none;
+      box-shadow: rgba(50, 50, 93, 0.07) 2px 6px 12px 3px,
+        rgba(0, 0, 0, 0.12) 2px 3px 7px 5px;
+      background-color: white;
+      border-radius: 20px;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      position: absolute;
+      transform: translateY(50px);
+      width: 285px;
+      text-align: center;
+      z-index: 100;
+      h4 {
+        font-size: 14px;
+      }
+      p {
+        margin-block: 15px;
+        color: map.get($theme-colors, "secondary");
+      }
+      #phoneCopied,
+      #addressCopied {
+        display: none;
+        color: map.get($text-colors, "light");
+        font-weight: 600;
+      }
+    }
+    img {
+      width: 40px;
+      height: 40px;
+      margin-left: 10px;
+      &:hover {
+        opacity: 0.45;
+        transition: 450ms;
+        cursor: pointer;
+      }
+      &:hover + .actionPopup {
+        display: flex;
+      }
+    }
+  }
+  .details {
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 35px;
+    height: 100%;
+    gap: 8px;
+    border-radius: 25px;
+    transform: translateY(-35px);
+    background-color: white;
+    .businessDescription {
+      overflow-wrap: break-word;
+      width: inherit;
+      display: block;
+      font-size: 14px;
+    }
+    .requestsContainer {
+      display: flex;
+      width: inherit;
+      align-items: center;
+      justify-content: center;
+      .investmentRequest {
+        gap: 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin: 12.5px;
+        max-width: 475px;
+        min-height: 150px;
+        border-radius: 20px;
+        padding: 25px 15px;
+        box-shadow: rgba(50, 50, 93, 0.07) 2px 6px 12px 3px,
+          rgba(0, 0, 0, 0.12) 2px 3px 7px 5px;
+        .description {
+          margin-bottom: 20px;
+          padding-inline: 10px;
+          text-align: start;
+          width: inherit;
+          overflow-wrap: break-word;
+          display: block;
+        }
+        div {
+          width: 435px;
+          gap: 8px;
+        }
+      }
+    }
+    div {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+      .orange {
+        color: map.get($theme-colors, "secondary");
+      }
+      .light {
+        color: map.get($text-colors, "light");
+      }
+    }
+  }
+  /*#region Custom Checkbox Input */
+  .container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    h4 {
+      margin-top: -2px;
+      color: map.get($theme-colors, "secondary");
+    }
+  }
+  .container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  .checkmark {
+    border-radius: 5px;
+    border: 2px solid map.get($theme-colors, "disabled");
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+  }
+  .container:hover input ~ .checkmark {
+    background-color: #fff;
+  }
+  .container input:checked ~ .checkmark {
+    background-color: map.get($theme-colors, "secondary");
+    border: 2px solid map.get($theme-colors, "secondary");
+  }
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  .container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  .container .checkmark:after {
+    left: 5px;
+    top: 0px;
+    width: 7px;
+    height: 14px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+  /*#endregion Custom Checkbox Input */
+}
+
+.company__close {
+  cursor: pointer;
+  color: #fb9746;
+
+  &:hover {
+    color: black;
+  }
+}
+
+.description__title {
+  margin-top: -10px;
+}
+
+.description__text {
+  font-style: italic;
+}
+
+.description__button {
+  cursor: pointer;
+  color: map.get($theme-colors, "secondary");
+}
+
+.descriptionRequest__text {
+  font-style: italic;
+  font-size: 14px;
+  color: map.get($theme-colors, "disabled");
+}
+
+.descriptionRequest__button {
+  cursor: pointer;
+  color: map.get($theme-colors, "secondary");
+  font-size: 14px;
+}

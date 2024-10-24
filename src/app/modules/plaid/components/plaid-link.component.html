@@ -1,0 +1,47 @@
+<div *ngIf="!tokenFetched" class="lds-ring"></div>
+<div class="plaid__container">
+  <div class="plaid__logo">
+    <img src="../../../../assets/img/plaid_logo.svg" alt="Plaid logo" />
+  </div>
+  <h1 class="plaid__title">Connect to Plaid</h1>
+  <p>
+    This is not a bank transfer request, but rather request to verify your
+    business bank account ownership, you are required to check the 2 boxes at
+    the end of Plaid for bank account verification. Failure to do so will result
+    in reject of your request. Please make sure to select all bank accounts of
+    your business in order to serve you best and to give you a proper credit
+    rating. You will also need to tell us the bank account to receive the
+    investment fund if you are qualified.
+    <br />
+    <br />
+    By using the service, you agree to Plaid’s
+    <a [routerLink]="[link.Terms]">Terms and Conditions</a> and
+    <a [routerLink]="[link.PrivacyPolicy]">Privacy Policy</a>.
+    <br />
+    <br />
+    Plaid will retrieve your account information. <a>Read More.</a>
+  </p>
+  <div class="plaid__button-container">
+    <app-button
+      class="plaid__button"
+      [color]="buttonColor.Light"
+      (click)="logout()"
+    >
+      Cancel
+    </app-button>
+    <app-button
+      [color]="buttonColor.Black"
+      *ngIf="tokenFetched"
+      ngxPlaidLink
+      [token]="linkToken"
+      (Success)="onSuccess($event)"
+      (Exit)="onExit($event)"
+      (Event)="onEvent($event)"
+      (Load)="onLoad($event)"
+      (Click)="onClick($event)"
+      class="plaid__button"
+    >
+      Continue
+    </app-button>
+  </div>
+</div>

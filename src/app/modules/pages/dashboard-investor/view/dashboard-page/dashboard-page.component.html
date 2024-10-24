@@ -1,0 +1,8 @@
+<div [ngSwitch]="userRole">
+  <div *ngSwitchCase="role.Investor">
+    <app-companies-list></app-companies-list>
+  </div>
+  <div *ngSwitchCase="role.BusinessOwner">
+    <app-business-owner-profile></app-business-owner-profile>
+  </div>
+</div>

@@ -1,0 +1,111 @@
+<!-- ---------------------------- INVEST VALUE CONTENT ----------------------------- -->
+<div *ngIf="showInvestContent" class="invest">
+  <img class="splash" src="{{ imgSource }}" />
+  <h3>{{ companyDetails.companyName }}</h3>
+  <p class="decorationText">Add investing amount for</p>
+  <p class="requestName">{{ chosenPurposeOfTheLoan }}</p>
+  <div class="amount-field-group mb-8 mt-5">
+    <label for="amount">Investing amount (must be a multiple of $500)</label>
+    <div class="amount-field mt-2">
+      <span>USD</span>
+      <input
+        type="number"
+        inputmode="numeric"
+        pattern="[0-9]*"
+        autocomplete="off"
+        name="amount"
+        oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+        (change)="onPriceChange($event)"
+        [(ngModel)]="priceToInvest"
+      />
+      <div class="amount-field_arrows">
+        <ui-icon
+          class="amount-field_arrows_up"
+          [type]="icon.ArrowUp"
+          (click)="increaseValue()"
+        ></ui-icon>
+        <ui-icon
+          class="amount-field_arrows_down"
+          [type]="icon.ArrowDown"
+          (click)="decreaseValue()"
+        ></ui-icon>
+      </div>
+    </div>
+  </div>
+  <div class="buttons-container">
+    <app-button [color]="buttonColor.Light" class="mb-3" (click)="close()"
+      >Cancel</app-button
+    >
+    <app-button [color]="buttonColor.Secondary" (click)="stateInvest()"
+      >Continue</app-button
+    >
+  </div>
+</div>
+<!-- ---------------------------- STATE CONTENT ---------------------------- -->
+<div *ngIf="showStateContent" class="invest">
+  <img src="../../../../assets/img/asabik-logo.svg" class="logo mt-3" />
+  <p class="m-7">
+    You agree that you are responsible for the due diligence work of your
+    investment and you understood the Company you are about to invest in is
+    subject to bankruptcy and your investment can be lost entirely. You
+    acknowledge that you will have to sign agreement separately with the Company
+    you are about to invest your money in and any attempt to recover your losses
+    can be done between you and the Company you invested in. You acknowledge
+    that you will not hold Asabik any responsibility for your loss. If you
+    decided to get your investment secured by a mean of asset collateral than
+    you may contact the Company you are about to invest in before signing the
+    Fund Investment Agreement with that Company, and have any secure collateral
+    documented between you and that Company. Asabik will be held no
+    responsibility for your loss.
+  </p>
+  <div class="buttons-container">
+    <app-button [color]="buttonColor.Light" class="mt-10" (click)="backInvest()"
+      >Back</app-button
+    >
+    <app-button
+      [color]="buttonColor.Secondary"
+      class="mt-10"
+      (click)="finishInvest()"
+      >Agree</app-button
+    >
+  </div>
+</div>
+<!-- ------------------------ FINISH INVEST CONTENT ------------------------ -->
+<div *ngIf="showFinishInvestContent" class="invest">
+  <img src="../../../../assets/img/asabik-logo.svg" class="logo mt-3" />
+  <h3 class="finish_invest">Are you sure you want to invest:</h3>
+  <h1 class="finish_invest_value">{{ priceToInvest }} USD</h1>
+  <div class="buttons-container mt-8">
+    <app-button [color]="buttonColor.Light" (click)="backInvest()"
+      >Back</app-button
+    >
+    <app-button [color]="buttonColor.Secondary" (click)="investHandler()"
+      >Invest</app-button
+    >
+  </div>
+</div>
+<!-- ------------------------ ERRORS CONTENT ------------------------- -->
+<div *ngIf="showErrorInvestContent" class="invest">
+  <img src="../../../../assets/img/asabik-logo.svg" class="logo mt-3 mb-8" />
+  <div class="text_error">
+    <ui-icon
+      class="text_error_icon"
+      [type]="icon.Alert"
+      (click)="increaseValue()"
+    ></ui-icon>
+    <h3 class="text_error_text">
+      {{ errorText }}
+    </h3>
+  </div>
+  <div class="buttons-container mt-10">
+    <app-button [color]="buttonColor.Light" class="mt-10" (click)="close()"
+      >Cancel</app-button
+    >
+    <app-button
+      [color]="buttonColor.Primary"
+      class="mt-10"
+      (click)="backInvest()"
+      >Back</app-button
+    >
+  </div>
+</div>

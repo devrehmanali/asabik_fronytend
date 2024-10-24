@@ -1,0 +1,92 @@
+@use "sass:map";
+@import "variables";
+@import "mixins/typography";
+@import "functions";
+
+:host {
+  .card {
+    width: 330px;
+    box-shadow: 0px 12px 38px rgba(0, 66, 117, 0.1);
+    border-radius: 0 0 20px 20px;
+    margin-top: 40px;
+
+    .header {
+      .invested {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        border-radius: 20px 20px 0 0;
+        padding: getSpacers(2, 0);
+        background: linear-gradient(180deg, #0a1f44 0%, #234fad 100%);
+
+        ui-icon {
+          width: 20px;
+        }
+      }
+    }
+
+    .body {
+      padding: getSpacers(0, 4, 5, 4);
+      position: relative;
+
+      .complate__field {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgb(0, 118, 180);
+        background: linear-gradient(
+          90deg,
+          rgba(0, 118, 180, 1) 0%,
+          rgba(0, 0, 0, 1) 100%
+        );
+        position: absolute;
+        top: -30px;
+        left: 0;
+        right: 0;
+        border-radius: 20px 20px 0 0;
+        padding: 8px;
+
+        .complate__investment {
+          color: white;
+          margin-left: 20px;
+          font-size: 14px;
+        }
+
+        .complate__icon {
+          color: white;
+          height: 25px;
+        }
+      }
+
+      .details {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        div {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+
+          p {
+            color: map.get($text-colors, "light");
+          }
+        }
+      }
+
+      .invest-button {
+        width: 125px;
+        align-self: center;
+        margin-top: 10px;
+      }
+    }
+  }
+
+  .buttons__card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

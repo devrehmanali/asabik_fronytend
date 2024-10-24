@@ -1,0 +1,48 @@
+<div class="head">
+  <img src="../../../../assets/img/asabik-logo-white.svg" />
+</div>
+<nav>
+  <div class="links">
+    <a [routerLink]="[link.AdminPanelDashboard]" routerLinkActive="active">
+      <ui-icon [type]="icon.Home"></ui-icon>
+      <span>Dashboard</span>
+    </a>
+    <a [routerLink]="[link.AdminPanelInvestorsList]" routerLinkActive="active">
+      <ui-icon [type]="icon.Investor"></ui-icon>
+      <span>Investors</span>
+    </a>
+    <a
+      [routerLink]="[link.AdminPanelBusinessOwnersList]"
+      routerLinkActive="active"
+    >
+      <ui-icon [type]="icon.Suitcase"></ui-icon>
+      <span>Business Owners</span>
+    </a>
+    <a [routerLink]="[link.RatingUpdate]" routerLinkActive="active">
+      <ui-icon [type]="icon.Rating"></ui-icon>
+      <span>Rating Update</span>
+    </a>
+    <a [routerLink]="[link.SettingsPanel]" routerLinkActive="active">
+      <ui-icon [type]="icon.Settings"></ui-icon>
+      <span>Settings</span>
+    </a>
+    <a
+      href="https://dashboard.plaid.com/identity_verification/templates"
+      target="_blank"
+      routerLinkActive="active"
+    >
+      <img
+        src="../../../../assets/icons/plaid-logo-white.svg"
+        alt="Identity Verification"
+        class="plaid_logo"
+      />
+      <span>Plaid Dashboard</span>
+    </a>
+  </div>
+  <div class="links">
+    <a role="button" (click)="logout()">
+      <ui-icon class="mb-1" [type]="icon.AdminLogout"></ui-icon>
+      <span>Logout</span>
+    </a>
+  </div>
+</nav>

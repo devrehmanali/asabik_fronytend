@@ -1,0 +1,26 @@
+<div class="modal__container">
+  <div class="modal__img">
+    <img src="../../../../assets/img/asabik-logo.svg" />
+  </div>
+  <h2 class="modal__text">
+    You acknowledge that you are an adult who on his own is willing to take the
+    risk of investing on funding a business. You understood that your investment
+    has the potential of partial or entire loss of the fund you invested. You
+    agreed that the decision to invest in listed Companies is on your own risk
+    and you have decided on your own free will to invest.
+  </h2>
+  <div class="modal__buttons-container">
+    <app-button
+      [color]="buttonColor.Secondary"
+      class="btn-light modal__button"
+      (click)="closeModal()"
+      >Accept
+    </app-button>
+    <app-button
+      [color]="buttonColor.Light"
+      class="btn-light modal__button"
+      (click)="declineStatment()"
+      >Decline
+    </app-button>
+  </div>
+</div>

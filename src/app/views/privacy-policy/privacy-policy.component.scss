@@ -1,0 +1,32 @@
+@use "sass:map";
+@import "mixins/typography";
+@import "functions";
+
+:host {
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: center;
+
+  .app-container-privancy {
+    width: 511px;
+    span {
+      color: map.get($theme-colors, "info");
+    }
+
+    ul,
+    th {
+      font-size: 1.4rem;
+      line-height: 2.2rem;
+      font-weight: 400;
+      letter-spacing: normal;
+      color: #4e5d78;
+    }
+
+    tr,
+    th {
+      border: 2px solid #8a94a6;
+      padding: 5px;
+      text-align: left;
+    }
+  }
+}

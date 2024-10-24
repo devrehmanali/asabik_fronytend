@@ -1,0 +1,112 @@
+@use "sass:map";
+@use "sass:list";
+@import "variables";
+@import "functions";
+@import "mixins/typography";
+
+$button-colors: (
+  "primary": (
+    map.get($theme-colors, "primary"),
+    map.get($theme-colors, "light"),
+    map.get($theme-colors, "light"),
+    map.get($theme-colors, "primary"),
+  ),
+  "secondary": (
+    map.get($theme-colors, "secondary"),
+    map.get($theme-colors, "light"),
+    map.get($theme-colors, "light"),
+    map.get($theme-colors, "secondary"),
+  ),
+  "light": (
+    map.get($theme-colors, "light"),
+    map.get($theme-colors, "dark"),
+    map.get($theme-colors, "light"),
+    map.get($theme-colors, "dark"),
+  ),
+  "success": (
+    map.get($theme-colors, "success"),
+    map.get($theme-colors, "light"),
+    map.get($theme-colors, "light"),
+    map.get($theme-colors, "success"),
+  ),
+  "black": (
+    map.get($theme-colors, "black"),
+    map.get($theme-colors, "light"),
+    map.get($theme-colors, "light"),
+    map.get($theme-colors, "black"),
+  ),
+  "white": (
+    map.get($theme-colors, "white"),
+    map.get($theme-colors, "black"),
+    map.get($theme-colors, "white"),
+    map.get($theme-colors, "black"),
+  ),
+  "danger": (
+    map.get($theme-colors, "danger"),
+    map.get($theme-colors, "light"),
+    map.get($theme-colors, "light"),
+    map.get($theme-colors, "danger"),
+  ),
+) !default;
+
+:host {
+  display: block;
+  button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: getSpacers(3, 4);
+    gap: 12px;
+    width: 100%;
+
+    box-shadow: 0px 10px 10px rgba(0, 66, 117, 0.12);
+    border-radius: 40px;
+    border: none;
+
+    &.compact {
+      border-radius: 10px;
+      gap: 9px;
+      padding: getSpacers(2, 3);
+      @include typography("button-medium");
+    }
+
+    ui-icon {
+      width: 14px;
+      height: 14px;
+    }
+
+    &.icon-placement- {
+      &left {
+        flex-direction: row;
+      }
+      &right {
+        flex-direction: row-reverse;
+      }
+      &top {
+        flex-direction: column;
+      }
+      &bottom {
+        flex-direction: column-reverse;
+      }
+    }
+
+    &:disabled {
+      opacity: 0.5;
+    }
+
+    @each $name, $colors in $button-colors {
+      &.btn-#{$name} {
+        background-color: list.nth($colors, 1);
+        color: list.nth($colors, 2);
+        border: 1px solid list.nth($colors, 1);
+        transition: all 0.3s;
+        &:hover:enabled {
+          background-color: list.nth($colors, 3);
+          color: list.nth($colors, 4);
+          border: 1px solid list.nth($colors, 4);
+        }
+      }
+    }
+  }
+}

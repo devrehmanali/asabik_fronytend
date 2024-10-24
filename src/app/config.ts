@@ -1,0 +1,6 @@
+export const Config = {
+  API_NAME: '[APPLICATION_USED_API_NAME]',
+  API_URL: 'http://164.92.190.238:3008/api/',
+  ENUM_SERVICE_API_VERSION: 'v1',
+  USER_SERVICE_API_VERSION: 'v1',
+};

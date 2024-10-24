@@ -1,0 +1,23 @@
+<div class="modal__container">
+  <div class="modal__img">
+    <img src="../../../../assets/img/asabik-logo.svg" />
+  </div>
+  <h2 class="modal__text">
+    In order to complete your investor account creation we need to verify your
+    ID, thus you will be directed to Plaid. This is not a bank transfer request,
+    but rather request to verify your bank account ownership, you are required
+    to check the 2 boxes at the end of Plaid for bank account verification.
+    <br />
+    Failure to do so will result in reject of your request. Please make sure to
+    select all bank accounts you wish to use for investment and for
+    verification.
+  </h2>
+  <div class="modal__buttons-container">
+    <app-button
+      [color]="buttonColor.Light"
+      class="btn-light modal__button"
+      (click)="closeModal()"
+      >Close
+    </app-button>
+  </div>
+</div>

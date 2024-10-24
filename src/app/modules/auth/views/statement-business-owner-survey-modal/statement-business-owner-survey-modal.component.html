@@ -1,0 +1,28 @@
+<div class="modal__container">
+  <div class="modal__img">
+    <img src="../../../../assets/img/asabik-logo.svg" />
+  </div>
+  <h2 class="modal__text">
+    This is not a loan request but a fund investment request, hence your
+    business has to show a true indicator on profit performance. You confirm
+    your acceptance to share agreeable percentage of profits with investors who
+    invested on your business. You acknowledge to be transparent on your
+    accounting and accept to provide account record each month if you managed to
+    secure investment fund. Your info will be shared only with investors. The
+    percentage of shared profit is set by you.
+  </h2>
+  <div class="modal__buttons-container">
+    <app-button
+      [color]="buttonColor.Secondary"
+      class="btn-light modal__button"
+      (click)="closeModal()"
+      >Accept
+    </app-button>
+    <app-button
+      [color]="buttonColor.Light"
+      class="btn-light modal__button"
+      (click)="declineStatment()"
+      >Decline
+    </app-button>
+  </div>
+</div>

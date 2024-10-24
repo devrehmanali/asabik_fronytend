@@ -1,0 +1,98 @@
+<div class="container">
+  <!-- ------------------------------- HEADER -------------------------------- -->
+  <div class="header">
+    <div class="d-flex justify-content-between">
+      <h1>Monthly Reports</h1>
+      <ui-icon
+        role="button"
+        class="text-primary"
+        [type]="icon.Preview"
+        (click)="navigateToPreview()"
+      ></ui-icon>
+    </div>
+    <hr />
+  </div>
+  <hr />
+  <!-- ------------------------------- CONTENT ------------------------------- -->
+  <div class="content">
+    <form class="form pt-6">
+      <app-input
+        [readonly]="true"
+        class="mb-6"
+        label="Current month"
+        [placeholder]="monthlyReport?.givenMonth?.toString() || ''"
+      ></app-input>
+      <form [formGroup]="form">
+        <app-input
+          formControlName="inflow"
+          class="mb-3"
+          label="Total sales"
+          prefix="USD"
+          [placeholder]="monthlyReport?.monthlyIn?.toString() || ''"
+          [type]="inputType.Number"
+          [readonly]="!(isEditing$ | async)"
+        ></app-input>
+
+        <app-input
+          formControlName="inflowDescription"
+          class="mb-2 textarea_monthly_reports"
+          label="Why are you changing your total sales?"
+          [type]="inputType.Textarea"
+          *ngIf="isEditing$ | async"
+          (input)="updateCharCount1($event)"
+        ></app-input>
+        <div class="char-count_monthly_reports" *ngIf="isEditing$ | async">
+          {{ charCount1 }}/{{ maxLength }}
+        </div>
+
+        <app-input
+          formControlName="outflow"
+          class="mb-2"
+          label="Total expenses"
+          prefix="USD"
+          [placeholder]="monthlyReport?.monthlyOut?.toString() || ''"
+          [type]="inputType.Number"
+          [readonly]="!(isEditing$ | async)"
+          [ngClass]="{ 'mt-8': isEditing$ | async }"
+        ></app-input>
+
+        <app-input
+          formControlName="outflowDescription"
+          class="mb-2 textarea_monthly_reports"
+          label="Why are you changing your total expenses?"
+          [type]="inputType.Textarea"
+          *ngIf="isEditing$ | async"
+          (input)="updateCharCount2($event)"
+        ></app-input>
+        <div class="char-count_monthly_reports" *ngIf="isEditing$ | async">
+          {{ charCount2 }}/{{ maxLength }}
+        </div>
+        <app-button
+          class="w-100"
+          [type]="buttonType.Button"
+          [color]="buttonColor.Secondary"
+          *ngIf="isEditing$ | async"
+          (click)="sendMonthlyReport()"
+          >Send</app-button
+        >
+      </form>
+
+      <div class="buttons__accept">
+        <app-button
+          [type]="buttonType.Button"
+          [color]="buttonColor.Primary"
+          (click)="startEditing()"
+          *ngIf="!(isEditing$ | async)"
+          >Edit</app-button
+        >
+        <app-button
+          [type]="buttonType.Button"
+          [color]="buttonColor.Success"
+          *ngIf="!(isEditing$ | async)"
+          (click)="confirmMonthlyReport()"
+          >Confirm</app-button
+        >
+      </div>
+    </form>
+  </div>
+</div>

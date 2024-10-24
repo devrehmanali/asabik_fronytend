@@ -1,0 +1,69 @@
+<div
+  class="card"
+  [ngStyle]="{
+    'border-radius': businessOwner.isInvested ? '20px 20px 0 0' : '20px'
+  }"
+>
+  <div class="header"></div>
+  <div class="body">
+    <div class="complate__field" *ngIf="businessOwner.isInvested">
+      <ui-icon class="complate__icon" [type]="icon.Ok"></ui-icon>
+      <div class="complate__investment">
+        {{ businessOwner?.investedAmount }}$ invested
+      </div>
+    </div>
+    <h3 class="pt-4">{{ businessOwner?.companyName }}</h3>
+    <hr />
+    <div class="details">
+      <div>
+        <p>Credit Rating:</p>
+        <p>{{ businessOwner?.rating }}</p>
+      </div>
+      <div>
+        <p>Projected Yearly Net Return:</p>
+        <p>{{ businessOwner?.projectedNetReturn }}</p>
+      </div>
+      <div>
+        <p>Expire Date of the Offer:</p>
+        <p>{{ businessOwner?.expirationDate }}</p>
+      </div>
+      <div>
+        <p>Term:</p>
+        <p>{{ businessOwner?.returnTerm }} months</p>
+      </div>
+      <div>
+        <p>Amount to meet the target:</p>
+        <p>{{ businessOwner?.amountToMeetTarget }} USD</p>
+      </div>
+      <div>
+        <p>Main product & service:</p>
+        <p>{{ businessOwner?.businessSubsector?.name }}</p>
+      </div>
+      <div class="buttons__card">
+        <app-button
+          class="invest-button"
+          [color]="buttonColor.Secondary"
+          (click)="openModal()"
+          >View</app-button
+        >
+        <ng-container
+          *ngIf="
+            companyDetails &&
+            companyDetails.investmentRequests.length > 0 &&
+            businessOwner.isRepaying
+          "
+        >
+          <app-button
+            class="invest-button"
+            [color]="buttonColor.White"
+            (click)="
+              navigateToInstallments(companyDetails.investmentRequests[0].id)
+            "
+          >
+            Installments
+          </app-button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

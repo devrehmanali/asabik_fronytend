@@ -1,0 +1,32 @@
+<div [ngSwitch]="currentSurveyStatus">
+  <div *ngSwitchCase="surveyStatus.Qualifies">
+    <h1>Congratulations!</h1>
+    <p class="mb-6">
+      Congratulations, your company qualifies for the Asabik platform.
+    </p>
+
+    <app-button class="button" (click)="navigateToDashboard()"
+      >Get started</app-button
+    >
+  </div>
+  <div *ngSwitchCase="surveyStatus.NotQualifies">
+    <h1>Sorry!</h1>
+    <p class="mb-6">
+      We are sorry to inform you that your company does not qualify for the
+      Asabik platform.
+    </p>
+
+    <app-button class="button" (click)="navigateToSignIn()">Go back</app-button>
+  </div>
+  <div *ngSwitchCase="surveyStatus.WaitingForApprov">
+    <h1>Success!</h1>
+    <p class="mb-6">
+      Congratulations, you have finished your onboarding already. Your account
+      is waiting for an approval.
+    </p>
+
+    <app-button class="button" (click)="navigateToSignIn()"
+      >Get started</app-button
+    >
+  </div>
+</div>

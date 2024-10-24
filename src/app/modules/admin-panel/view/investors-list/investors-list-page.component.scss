@@ -1,0 +1,12 @@
+:host {
+  padding: 64px 100px 64px 100px;
+
+  .head {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+  .search {
+    min-width: 300px;
+  }
+}

@@ -1,0 +1,35 @@
+@font-face {
+  font-family: "Inter";
+  src: url(/src/assets/fonts/Inter-VariableFont_slnt\,wght.ttf) format("ttf");
+}
+
+@function define-typography-level(
+  $font-size,
+  $line-height: $font-size,
+  $font-weight: 500,
+  $letter-spacing: normal
+) {
+  @return (
+    font-size: $font-size,
+    line-height: $line-height,
+    font-weight: $font-weight,
+    letter-spacing: $letter-spacing
+  );
+}
+
+$root-font-size: 10px;
+$body-font-size: 1.6rem;
+$font-family: "Inter", sans-serif;
+
+$typography-config: (
+  heading-bold-large: define-typography-level(3rem, 3.6rem, 700),
+  heading-bold: define-typography-level(2.4rem, 3.6rem, 700),
+  body-regular: define-typography-level(1.4rem, 2.2rem, 400),
+  body-medium: define-typography-level(1.4rem, 2.2rem, 500),
+  body-semiboild: define-typography-level(1.4rem, 2.2rem, 600),
+  button-medium: define-typography-level(1.4rem, 2.2rem),
+  label-regular: define-typography-level(1.2rem, 2rem, 200),
+  hint-text: define-typography-level(1rem, 1.6rem),
+  table-bold: define-typography-level(1.4rem, 2.2rem, 600),
+  table-regular: define-typography-level(1.2rem, 1.4rem, 400),
+);

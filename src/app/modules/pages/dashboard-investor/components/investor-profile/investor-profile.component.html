@@ -1,0 +1,47 @@
+<div class="header">
+  <div class="d-flex justify-content-between">
+    <h2>Profile</h2>
+  </div>
+  <hr />
+</div>
+<div class="app-container">
+  <form [formGroup]="form" class="form pt-4" (submit)="save()">
+    <p class="text-disabled body-medium mb-7">EDIT PROFILE</p>
+    <app-input
+      formControlName="fullName"
+      class="mb-5"
+      label="Name Surname"
+    ></app-input>
+    <app-input
+      [readonly]="true"
+      formControlName="email"
+      class="mb-5"
+      label="Email"
+    ></app-input>
+    <hr class="text-disabled" />
+    <p class="text-disabled body-medium mb-7">COMPANY DETAILS</p>
+    <app-input
+      formControlName="companyName"
+      label="Company name"
+      class="mb-5"
+    ></app-input>
+    <app-input
+      formControlName="website"
+      class="mb-5"
+      label="Website URL"
+      prefix="https://"
+    ></app-input>
+
+    <app-button
+      [disabled]="form.disabled"
+      [color]="buttonColor.Secondary"
+      class="mb-3"
+      >Save</app-button
+    >
+  </form>
+  <hr class="text-disabled mt-7" />
+  <p class="text-disabled body-medium mb-7">DELETE ACCOUNT</p>
+  <app-button (click)="openModal()" [color]="buttonColor.Danger" class="mb-3"
+    >Delete</app-button
+  >
+</div>

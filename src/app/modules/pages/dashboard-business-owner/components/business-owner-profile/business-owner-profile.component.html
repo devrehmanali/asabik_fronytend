@@ -1,0 +1,69 @@
+<div class="container">
+  <!-- ------------------------------- HEADER -------------------------------- -->
+  <div class="header">
+    <div class="d-flex justify-content-between">
+      <h1>Dashboard</h1>
+      <ui-icon
+        role="button"
+        class="text-primary"
+        [type]="icon.Preview"
+        (click)="navigateToPreview()"
+      ></ui-icon>
+    </div>
+    <hr />
+  </div>
+  <hr />
+  <!-- ---------------------------- DASHBOARD ----------------------------- -->
+  <div class="content">
+    <div class="dashboard">
+      <ui-icon
+        class="alert__dashboard_profile"
+        [type]="icon.Exclamation"
+        *ngIf="alerts?.isProfileIncomplete"
+      ></ui-icon>
+      <div class="dashboard__card" [routerLink]="[link.BusinessOwnerProfile]">
+        <ui-icon class="dashboard__card_icon" [type]="icon.Investor"></ui-icon>
+        <div class="dashboard__card_name">Profile</div>
+      </div>
+      <ui-icon
+        class="alert__dashboard_investment"
+        [type]="icon.Exclamation"
+        *ngIf="alerts?.isInvestmentRequestExpired"
+      ></ui-icon>
+      <div class="dashboard__card" [routerLink]="[link.InvestmentRequest]">
+        <ui-icon
+          class="dashboard__card_icon"
+          [type]="icon.Investment"
+        ></ui-icon>
+        <div class="dashboard__card_name">Investment Request</div>
+      </div>
+    </div>
+
+    <div class="dashboard">
+      <ui-icon
+        class="alert__dashboard_monthlyreports"
+        [type]="icon.Exclamation"
+        *ngIf="alerts?.isReportPending"
+      ></ui-icon>
+      <div
+        [routerLink]="!alerts?.isReportPending ? [] : [link.MonthlyReport]"
+        [ngClass]="{
+          'dashboard__card-inactive': !alerts?.isReportPending,
+          dashboard__card: alerts?.isReportPending
+        }"
+      >
+        <ui-icon class="dashboard__card_icon" [type]="icon.Wallet"></ui-icon>
+        <div class="dashboard__card_name">Monthly Reports</div>
+      </div>
+      <div class="dashboard__card" [routerLink]="[link.SettingsBusinessOwner]">
+        <ui-icon class="dashboard__card_icon" [type]="icon.Settings"></ui-icon>
+        <div class="dashboard__card_name">Settings</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="line-chart" style="width: 700px"></div>
+<div *ngIf="chartDataAvailable" class="chart__legend">
+  <p class="chart__legend_influences">Total sales</p>
+  <p class="chart__legend_expenses">Total expenses</p>
+</div>

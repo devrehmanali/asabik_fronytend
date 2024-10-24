@@ -1,0 +1,115 @@
+<div class="head">
+  <div>
+    <h1 class="heading-bold">Business Owners</h1>
+  </div>
+  <div class="d-flex gap-4">
+    <form [formGroup]="form">
+      <app-input
+        class="search"
+        formControlName="search"
+        placeholder="Search"
+        (keyup)="applyFilter($event)"
+      ></app-input>
+    </form>
+    <app-button
+      (click)="downloadCsv()"
+      [compact]="true"
+      [icon]="Icon.Download"
+      [color]="buttonColor.Light"
+      >Export CSV</app-button
+    >
+  </div>
+</div>
+<div class="content" [ngClass]="{ loading: loading }">
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>User ID</th>
+        <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="companyName">
+        <th mat-header-cell *matHeaderCellDef>Company Name</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.companyName ?? "-" }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="ownerName">
+        <th mat-header-cell *matHeaderCellDef>Profile</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-chip
+            [routerLink]="[Link.AdminPanelBusinessOwnerDetails(element.id)]"
+            (mouseenter)="onMouseEnter(element.id)"
+            (mouseleave)="onMouseLeave(element.id)"
+            [ngClass]="{
+              'bg-primary': !mouseOverStates.get(element.id),
+              'bg-light': mouseOverStates.get(element.id)
+            }"
+          >
+            <p [ngClass]="{ 'text-white': !mouseOverStates.get(element.id) }">
+              {{ element.ownerName ?? "-" }}
+            </p>
+          </mat-chip>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="sector">
+        <th mat-header-cell *matHeaderCellDef>Sector</th>
+        <td mat-cell *matCellDef="let element">{{ element.sector ?? "-" }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="requiredInvestment">
+        <th mat-header-cell *matHeaderCellDef>Required Investment</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.requiredInvestment | currency }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="isVerified">
+        <th mat-header-cell *matHeaderCellDef>Verified</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.isVerified; else notVerified">
+            <img
+              height="28px"
+              width="28px"
+              src="../../../../assets/icons/check-green.svg"
+              alt="Check icon"
+            />
+          </ng-container>
+          <ng-template #notVerified>
+            <img
+              height="28px"
+              width="28px"
+              src="../../../../assets/img/error-icon.svg"
+              alt="Error icon"
+            />
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="isActive">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-chip
+            [ngClass]="{
+              'bg-secondary': !element.isActive,
+              'bg-success': element.isActive
+            }"
+          >
+            <p class="text-white">
+              {{ element.isActive ? "Active" : "Inactive" }}
+            </p>
+          </mat-chip>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 15, 20]"
+      showFirstLastButtons
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
+  </div>
+</div>

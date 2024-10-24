@@ -1,0 +1,36 @@
+<label *ngIf="label">{{ label }}</label>
+<div class="input-wrapper">
+  <span *ngIf="prefix" class="prefix">{{ prefix }}</span>
+  <input
+    *ngIf="type != inputType.Textarea"
+    [(ngModel)]="value"
+    [type]="type"
+    [placeholder]="placeholder"
+    class="input"
+    (focusin)="onFocusIn()"
+    (focusout)="onFocusOut()"
+    [disabled]="disabled"
+    [readonly]="readonly"
+  />
+  <textarea
+    rows="3"
+    [(ngModel)]="value"
+    *ngIf="type == inputType.Textarea"
+    [placeholder]="placeholder"
+    class="input"
+    (focusin)="onFocusIn()"
+    (focusout)="onFocusOut()"
+    [disabled]="disabled"
+    [readonly]="readonly"
+  ></textarea>
+</div>
+
+<div class="error-message" *ngIf="touched && validationErrors && !focus">
+  <img
+    height="10px"
+    width="9px"
+    src="../../../../assets/img/error-icon.svg"
+    alt=""
+  />
+  <span>Error</span>
+</div>

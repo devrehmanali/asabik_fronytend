@@ -1,0 +1,766 @@
+<div [ngClass]="{ loading: loading }">
+  <!-- ------------------------------- HEADING ------------------------------- -->
+  <div class="d-flex justify-content-between mb-5">
+    <div class="align-items-center gap-5">
+      <div class="d-flex gap-2">
+        <h1 class="heading-bold">{{ businessOwner.ownerName }}</h1>
+        <ng-container *ngIf="iconType">
+          <ui-icon
+            (click)="blockBusinessOwner()"
+            class="mt-2"
+            [type]="iconType"
+          ></ui-icon>
+        </ng-container>
+      </div>
+      <span class="body-regular text-light">Business Owner</span>
+    </div>
+    <div class="d-flex gap-4">
+      <app-button
+        [compact]="true"
+        [color]="ButtonColor.White"
+        [icon]="Icon.Upload"
+        [disabled]="downloading"
+        (click)="fileInput.click()"
+        class="upload__button"
+      >
+        Upload Monthly reports
+      </app-button>
+      <input
+        type="file"
+        #fileInput
+        style="display: none"
+        (change)="uploadMonthlyReports($event)"
+      />
+      <app-button
+        [compact]="true"
+        [color]="ButtonColor.Light"
+        [icon]="Icon.Download"
+        (click)="downloadCsv()"
+        [disabled]="downloading"
+        >Finance Reports</app-button
+      >
+      <app-button
+        [compact]="true"
+        [color]="ButtonColor.Light"
+        [icon]="Icon.Download"
+        (click)="downloadPdf()"
+        [disabled]="downloading"
+        >Survey</app-button
+      >
+    </div>
+  </div>
+
+  <!-- ------------------------------- STATUS -------------------------------- -->
+  <div class="d-flex mb-5 gap-4">
+    <mat-chip
+      [ngClass]="{
+        'bg-secondary': !businessOwner.isActive,
+        'bg-success': businessOwner.isActive
+      }"
+    >
+      <p class="text-white">
+        {{ businessOwner.isActive ? "Active" : "Inactive" }}
+      </p>
+    </mat-chip>
+    <mat-chip
+      class="body-regular"
+      [ngClass]="{
+        bg: !businessOwner.isBlocked,
+        'bg-danger': businessOwner.isBlocked
+      }"
+      (click)="blockBusinessOwner()"
+    >
+      <p [ngClass]="{ 'text-white': businessOwner.isBlocked }">
+        {{ businessOwner.isBlocked ? "Blocked" : "Block" }}
+      </p>
+    </mat-chip>
+  </div>
+
+  <!-- ------------------------------- INFO 1 -------------------------------- -->
+  <div class="justify-content-between mb-7" [ngClass]="{ loading: saveing }">
+    <div class="d-flex justify-content-between mb-7 details__data">
+      <div>
+        <h5 class="text-primary">Registration Date</h5>
+        <p>{{ businessOwner.registrationDate | date : "shortDate" }}</p>
+      </div>
+      <div>
+        <h5 class="text-primary">Address</h5>
+        <p>{{ businessOwner?.address?.street ?? "-" }}</p>
+        <p>
+          {{ businessOwner?.address?.city ?? "-" }},
+          {{ businessOwner?.address?.zipCode ?? "-" }}
+        </p>
+      </div>
+      <div>
+        <h5 class="text-primary">Contact Details</h5>
+        <p>{{ businessOwner.email }}</p>
+        <p>{{ businessOwner.phoneNumber }}</p>
+      </div>
+      <div>
+        <h5 class="text-primary">Company Name</h5>
+        <p>{{ businessOwner.companyName ?? "-" }}</p>
+      </div>
+      <div>
+        <app-button
+          [compact]="true"
+          (click)="openEditDialog()"
+          [icon]="Icon.Edit"
+          >Edit</app-button
+        >
+      </div>
+    </div>
+    <!-- ------------------------------- INFO identity -------------------------------- -->
+    <div class="d-flex justify-content-between details__identity mb-7">
+      <div>
+        <h5 class="text-black">Extracted Name</h5>
+        <p>{{ identityScore?.extractedName }}</p>
+        <mat-chip class="bg-black mt-2">
+          <p class="text-white">
+            {{
+              identityScore?.ownerNameScore !== null
+                ? identityScore?.ownerNameScore + "%"
+                : "Unable to retrieve"
+            }}
+          </p>
+        </mat-chip>
+      </div>
+      <div>
+        <h5 class="text-black">Extracted Phone</h5>
+        <p>{{ identityScore?.extractedPhone }}</p>
+        <mat-chip class="bg-black mt-2">
+          <p class="text-white">
+            {{
+              identityScore?.phoneScore !== null
+                ? identityScore?.phoneScore + "%"
+                : "Unable to retrieve"
+            }}
+          </p>
+        </mat-chip>
+      </div>
+      <div>
+        <h5 class="text-black">Extracted Email</h5>
+        <p>{{ identityScore?.extractedEmail }}</p>
+        <mat-chip class="bg-black mt-2">
+          <p class="text-white">
+            {{
+              identityScore?.emailScore !== null
+                ? identityScore?.emailScore + "%"
+                : "Unable to retrieve"
+            }}
+          </p>
+        </mat-chip>
+      </div>
+      <div>
+        <h5 class="text-black">Extracted Address</h5>
+        <p>{{ identityScore?.extractedAddress?.street }}</p>
+        <div class="d-flex justify-content-center">
+          <p>{{ identityScore?.extractedAddress?.city }},&nbsp;</p>
+
+          <p>{{ identityScore?.extractedAddress?.zipCode }}</p>
+        </div>
+        <mat-chip class="bg-black mt-2">
+          <p class="text-white">
+            {{
+              identityScore?.addressScore !== null
+                ? identityScore?.addressScore + "%"
+                : "Unable to retrieve"
+            }}
+          </p>
+        </mat-chip>
+      </div>
+    </div>
+    <!-- ------------------------------- INFO 2 -------------------------------- -->
+    <div class="d-flex justify-content-between details__cash">
+      <div>
+        <h5 class="text-success">Main Business Activity</h5>
+        <p>{{ businessOwner.sector }}</p>
+      </div>
+      <div>
+        <h5 class="text-success">Total Received Investments</h5>
+        <p>{{ businessOwner.receivedInvestments | currency }}</p>
+      </div>
+      <div>
+        <h5 class="text-success">Required Investments</h5>
+        <p>{{ businessOwner.requiredInvestments | currency }}</p>
+      </div>
+    </div>
+    <!-- -------------------------------- INFO newest --------------------------------- -->
+    <div
+      *ngIf="!newestMonthlyReportForAdmin?.actionRequired"
+      class="d-block mt-7 details__plaid"
+    >
+      <div class="details__plaid_logo">
+        <img src="../../../../assets/img/plaid_logo.svg" alt="Plaid logo" />
+      </div>
+      <div class="d-flex justify-content-between">
+        <div>
+          <h5 class="text-black">reportDate</h5>
+          <p>{{ newestMonthlyReportForAdmin?.reportDate }}</p>
+        </div>
+        <div>
+          <h5 class="text-black">isConfirmed</h5>
+          <p>{{ newestMonthlyReportForAdmin?.isConfirmed }}</p>
+        </div>
+        <div>
+          <h5 class="text-black">isOriginal</h5>
+          <p>{{ newestMonthlyReportForAdmin?.isOriginal }}</p>
+        </div>
+        <div>
+          <h5 class="text-black">vInflow</h5>
+          <p>{{ newestMonthlyReportForAdmin?.vInflow }}</p>
+        </div>
+        <div>
+          <h5 class="text-black">vTotal</h5>
+          <p>{{ newestMonthlyReportForAdmin?.vTotal }}</p>
+        </div>
+        <div>
+          <h5 class="text-black">outflowExceed</h5>
+          <p>{{ newestMonthlyReportForAdmin?.outflowExceed }}</p>
+        </div>
+        <div>
+          <h5 class="text-black">isNegativeBalance</h5>
+          <p>{{ newestMonthlyReportForAdmin?.isNegativeBalance }}</p>
+        </div>
+        <div>
+          <h5 class="text-black">noEarning</h5>
+          <p>{{ newestMonthlyReportForAdmin?.noEarning }}</p>
+        </div>
+      </div>
+      <hr />
+      <div class="mt-5">
+        <h5 class="text-black">inflow</h5>
+        <p>{{ newestMonthlyReportForAdmin?.inflow }} USD</p>
+      </div>
+      <div class="mt-5">
+        <div>
+          <h5 class="text-black">inflowDescription</h5>
+          <p>
+            {{ newestMonthlyReportForAdmin?.inflowDescription }}
+          </p>
+        </div>
+      </div>
+      <hr />
+      <div class="mt-5">
+        <h5 class="text-black">outflow</h5>
+        <p>{{ newestMonthlyReportForAdmin?.outflow }} USD</p>
+      </div>
+
+      <div class="mt-5">
+        <div>
+          <h5 class="text-black">outflowDescription</h5>
+          <p>
+            {{ newestMonthlyReportForAdmin?.outflowDescription }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ------------------------------- INFO 3 -------------------------------- -->
+    <div class="monthly_reports" *ngIf="businessOwner.isReportAvailable">
+      <!-- -------------------------------- PLAID -------------------------------- -->
+      <div class="d-flex justify-content-between monthly_reports_details_plaid">
+        <div class="monthly_reports_plaid">
+          <img src="../../../../assets/img/plaid_logo.svg" alt="Plaid logo" />
+        </div>
+        <div class="monthly_reports_details_plaid_list">
+          <h5 class="text">Current month</h5>
+          <p>{{ monthlyReportForAdmin?.monthlyReportFromPaid?.reportDate }}</p>
+        </div>
+        <div class="monthly_reports_details_plaid_list">
+          <h5 class="text">Total sales</h5>
+          <p>{{ monthlyReportForAdmin?.monthlyReportFromPaid?.inflow }} USD</p>
+        </div>
+        <div class="monthly_reports_details_plaid_list">
+          <h5 class="text">Total expenses</h5>
+          <p>{{ monthlyReportForAdmin?.monthlyReportFromPaid?.outflow }} USD</p>
+        </div>
+        <div class="monthly_reports_details_plaid_list">
+          <h5 class="text">Virtual total sales</h5>
+          <p>{{ monthlyReportForAdmin?.monthlyReportFromPaid?.vInflow }}</p>
+        </div>
+        <div class="monthly_reports_details_plaid_list">
+          <h5 class="text">Virtual totality</h5>
+          <p>{{ monthlyReportForAdmin?.monthlyReportFromPaid?.vTotal }}</p>
+        </div>
+        <div class="monthly_reports_details_plaid_list">
+          <h5 class="text">Total expenses exceed</h5>
+          <p>
+            {{ monthlyReportForAdmin?.monthlyReportFromPaid?.outflowExceed }}
+          </p>
+        </div>
+        <div class="monthly_reports_details_plaid_list">
+          <h5 class="text">Negative balance</h5>
+          <p>
+            {{
+              monthlyReportForAdmin?.monthlyReportFromPaid?.isNegativeBalance
+            }}
+          </p>
+        </div>
+        <div class="monthly_reports_details_plaid_list">
+          <h5 class="text">No earnings</h5>
+          <p>{{ monthlyReportForAdmin?.monthlyReportFromPaid?.noEarning }}</p>
+        </div>
+      </div>
+      <!-- ------------------------------- UPDATE -------------------------------- -->
+      <div class="d-flex justify-content-between monthly_reports_details">
+        <h2 class="monthly_reports_details_title">Update Monthly Reports</h2>
+        <div class="monthly_reports_details_list">
+          <h5 class="text">Current month</h5>
+          <p>{{ monthlyReportForAdmin?.monthlyReportUpdate?.reportDate }}</p>
+        </div>
+        <div class="monthly_reports_details_list">
+          <h5 class="text">Influences</h5>
+          <p>{{ monthlyReportForAdmin?.monthlyReportUpdate?.inflow }} USD</p>
+        </div>
+        <div class="monthly_reports_details_list">
+          <h5 class="text">Influences description</h5>
+          <p *ngIf="inflowDescription && inflowDescription.length <= 30">
+            {{ inflowDescription }}
+          </p>
+          <p *ngIf="showMoreInflowDescription">
+            {{ inflowDescription }}
+            <span (click)="toggleShowMoreInflowDescription()">-Show Less</span>
+          </p>
+          <p
+            *ngIf="
+              inflowDescription &&
+              inflowDescription.length > 30 &&
+              !showMoreInflowDescription
+            "
+          >
+            {{ inflowDescription.slice(0, 30) }}
+            <span (click)="toggleShowMoreInflowDescription()"
+              >...Show More</span
+            >
+          </p>
+        </div>
+        <div class="monthly_reports_details_list">
+          <h5 class="text">Total expenses</h5>
+          <p>{{ monthlyReportForAdmin?.monthlyReportUpdate?.outflow }} USD</p>
+        </div>
+        <div class="monthly_reports_details_list">
+          <h5 class="text">Total expenses description</h5>
+          <p *ngIf="outflowDescription && outflowDescription.length <= 30">
+            {{ outflowDescription }}
+          </p>
+          <p *ngIf="showMoreOutflowDescription">
+            {{ outflowDescription }}
+            <span (click)="toggleShowMoreOutflowDescription()">-Show Less</span>
+          </p>
+          <p
+            *ngIf="
+              outflowDescription &&
+              outflowDescription.length > 30 &&
+              !showMoreOutflowDescription
+            "
+          >
+            {{ outflowDescription.slice(0, 30) }}
+            <span (click)="toggleShowMoreOutflowDescription()"
+              >...Show More</span
+            >
+          </p>
+        </div>
+        <div class="monthly_reports_details_list">
+          <h5 class="text">Virtual total sales</h5>
+          <p>{{ monthlyReportForAdmin?.monthlyReportUpdate?.vInflow }}</p>
+        </div>
+        <div class="monthly_reports_details_list">
+          <h5 class="text">Virtual total sales</h5>
+          <p>{{ monthlyReportForAdmin?.monthlyReportUpdate?.vTotal }}</p>
+        </div>
+        <div class="monthly_reports_details_list">
+          <h5 class="text">Total expenses exceed</h5>
+          <p>{{ monthlyReportForAdmin?.monthlyReportUpdate?.outflowExceed }}</p>
+        </div>
+        <div class="monthly_reports_details_list">
+          <h5 class="text">Negative balance</h5>
+          <p>
+            {{ monthlyReportForAdmin?.monthlyReportUpdate?.isNegativeBalance }}
+          </p>
+        </div>
+        <div class="monthly_reports_details_list">
+          <h5 class="text">No earnings</h5>
+          <p>{{ monthlyReportForAdmin?.monthlyReportUpdate?.noEarning }}</p>
+        </div>
+        <div class="monthly_reports_details_buttons">
+          <app-button
+            class="monthly_reports_details_buttons_button w-100"
+            [color]="ButtonColor.Light"
+            (click)="declineMonthlyReport()"
+            >Decline</app-button
+          >
+          <app-button
+            class="monthly_reports_details_buttons_button w-100"
+            [color]="ButtonColor.Black"
+            (click)="acceptMonthlyReport()"
+            >Accept</app-button
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- --------------------------- TABLE INVESTORS --------------------------- -->
+  <p class="text-light mb-3">Investors</p>
+  <div class="mat-elevation-z8 mb-7">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>User ID</th>
+        <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="companyName">
+        <th mat-header-cell *matHeaderCellDef>Company Name</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.companyName ?? "-" }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Profile</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-chip
+            [routerLink]="[Link.AdminPanelInvestorDetails(element.id)]"
+            (mouseenter)="onMouseEnter(element.id)"
+            (mouseleave)="onMouseLeave(element.id)"
+            [ngClass]="{
+              'bg-primary': !mouseOverStates.get(element.id),
+              'bg-light': mouseOverStates.get(element.id)
+            }"
+          >
+            <p [ngClass]="{ 'text-white': !mouseOverStates.get(element.id) }">
+              {{ element.name }}
+            </p>
+          </mat-chip>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="alreadyInvested">
+        <th mat-header-cell *matHeaderCellDef>Already Investment</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.alreadyInvested | currency }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="isActive">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-chip
+            [ngClass]="{
+              'bg-danger': !element.isActive,
+              'bg-success': element.isActive
+            }"
+          >
+            <p class="text-white">
+              {{ element.isActive ? "Active" : "Inactive" }}
+            </p>
+          </mat-chip>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 15, 20]"
+      showFirstLastButtons
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
+  </div>
+
+  <!-- ---------------------- TABLE INVESTMENT REQUEST ----------------------- -->
+  <p class="text-light mb-3">Investment Requests</p>
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSourceRequests">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>Investment ID</th>
+        <td mat-cell *matCellDef="let investmentRequest">
+          {{ investmentRequest.id }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="creditRating">
+        <th mat-header-cell *matHeaderCellDef>Credit Rating Data</th>
+        <td mat-cell *matCellDef="let investmentRequest">
+          <mat-chip
+            class="body-regular bg-light"
+            (click)="downloadCreditRatingCsv(investmentRequest.id)"
+          >
+            <p>Download CSV</p>
+          </mat-chip>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="loanPurpose">
+        <th mat-header-cell *matHeaderCellDef>Loan Purpose</th>
+        <td
+          mat-cell
+          *matCellDef="let investmentRequest"
+          [matTooltip]="investmentRequest.loanPurpose"
+        >
+          {{ investmentRequest.loanPurpose | slice : 0 : 10 }}...
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="helpIncreaseProfit">
+        <th mat-header-cell *matHeaderCellDef>Help Increase Profit</th>
+        <td
+          mat-cell
+          *matCellDef="let investmentRequest"
+          [matTooltip]="investmentRequest.helpIncreaseProfit"
+        >
+          {{ investmentRequest.helpIncreaseProfit | slice : 0 : 10 }}...
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="requiredCapital">
+        <th mat-header-cell *matHeaderCellDef>Required capital</th>
+        <td mat-cell *matCellDef="let investmentRequest">
+          {{ investmentRequest.requiredCapital }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="returnTerm">
+        <th mat-header-cell *matHeaderCellDef>Return Term</th>
+        <td mat-cell *matCellDef="let investmentRequest">
+          {{ investmentRequest.returnTerm }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="rating">
+        <th mat-header-cell *matHeaderCellDef>Rating</th>
+        <td mat-cell *matCellDef="let investmentRequest">
+          {{ investmentRequest.rating }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="ratingUpdate">
+        <th mat-header-cell *matHeaderCellDef>Rating Update</th>
+        <td mat-cell *matCellDef="let investmentRequest">
+          {{ investmentRequest.ratingUpdate }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dti">
+        <th mat-header-cell *matHeaderCellDef>DTI</th>
+        <td mat-cell *matCellDef="let investmentRequest">
+          {{ investmentRequest.dti }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let investmentRequest">
+          <ng-container
+            *ngIf="
+              investmentRequest.status === 'Manual processing';
+              else blockedContent
+            "
+          >
+            <mat-chip
+              class="body-regular"
+              [ngClass]="{
+                'bg-primary': investmentRequest.status !== 'Manual processing',
+                'bg-secondary': investmentRequest.status === 'Manual processing'
+              }"
+              (click)="openModal(businessOwner.id, investmentRequest.id)"
+            >
+              <p class="text-white">{{ investmentRequest.status }}</p>
+            </mat-chip>
+          </ng-container>
+
+          <ng-template #blockedContent>
+            <mat-chip class="body-regular bg-primary" disabled>
+              <p class="text-white">{{ investmentRequest.status }}</p>
+            </mat-chip>
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="installments">
+        <th mat-header-cell *matHeaderCellDef>Installments</th>
+        <td mat-cell *matCellDef="let investmentRequest">
+          <mat-chip
+            [ngClass]="{
+              'bg-light': selectedInvestmentRequestId !== investmentRequest.id,
+              'bg-primary': selectedInvestmentRequestId === investmentRequest.id
+            }"
+            (click)="viewInstallments(investmentRequest)"
+            *ngIf="
+              investmentRequest.status === 'Funds has been transfered';
+              else notAvailableContent
+            "
+          >
+            <p
+              [ngClass]="{
+                'text-white':
+                  selectedInvestmentRequestId === investmentRequest.id
+              }"
+            >
+              View Installments
+            </p>
+          </mat-chip>
+          <ng-template #notAvailableContent>
+            <mat-chip class="bg-light" disabled>
+              <p class="text-black">Not available</p>
+            </mat-chip>
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsRequests"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsRequests"></tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 15, 20]"
+      showFirstLastButtons
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
+  </div>
+
+  <!-- ------------------------ INSTALLMENTS DETAILS ------------------------- -->
+  <p class="text-primary mt-7" *ngIf="showInstallmentsDetails">
+    Investment Request ID - {{ selectedInvestmentRequestId }}
+  </p>
+  <div
+    class="d-flex justify-content-between mb-7 mt-3 details__data"
+    *ngIf="showInstallmentsDetails"
+  >
+    <div>
+      <h5 class="text-primary">Declared Monthly Profit</h5>
+      <p>{{ installmentsInvestmentRequest?.declaredMotnhlyProfit }} USD</p>
+    </div>
+    <div>
+      <h5 class="text-primary">Declared Profit To Share</h5>
+      <p>{{ installmentsInvestmentRequest?.declaredProfitToShare }} USD</p>
+    </div>
+    <div>
+      <h5 class="text-success">PSR</h5>
+      <p>{{ installmentsInvestmentRequest?.psr }}</p>
+    </div>
+  </div>
+  <!-- ------------------------- TABLE INSTALLMENTS -------------------------- -->
+  <div class="mat-elevation-z8 mb-7" *ngIf="showInstallmentsDetails">
+    <table mat-table [dataSource]="dataSourceInstallments">
+      <ng-container matColumnDef="no">
+        <th mat-header-cell *matHeaderCellDef>No</th>
+        <td mat-cell *matCellDef="let element" class="text-primary">
+          {{ element.no }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="paymentDate">
+        <th mat-header-cell *matHeaderCellDef>Payment Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.paymentDate }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="totalRevenue">
+        <th mat-header-cell *matHeaderCellDef>Total Revenue</th>
+        <td mat-cell *matCellDef="let element">{{ element.totalRevenue }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="totalNetProfit">
+        <th mat-header-cell *matHeaderCellDef>Total Net Profit</th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [ngClass]="{
+            'text-secondary':
+              element.installmentData.inflowDescription ||
+              element.installmentData.outflowDescription != null,
+            '':
+              element.installmentData.inflowDescription ||
+              element.installmentData.outflowDescription == null
+          }"
+          (mouseenter)="showTooltip = true"
+          (mouseleave)="showTooltip = false"
+        >
+          {{ element.totalNetProfit }}
+          <div class="tooltip">
+            <div
+              *ngIf="
+                showTooltip && element.installmentData.inflowDescription != null
+              "
+            >
+              {{ element.installmentData.inflowDescription }}
+            </div>
+            <br />
+            <div
+              *ngIf="
+                showTooltip &&
+                element.installmentData.outflowDescription != null
+              "
+            >
+              {{ element.installmentData.outflowDescription }}
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="profitToShare">
+        <th mat-header-cell *matHeaderCellDef>Profit To Share</th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [ngClass]="{
+            'text-danger': element.installmentData.profitToShareInfo != null,
+            'text-success': element.installmentData.profitToShareInfo == null
+          }"
+          (mouseenter)="showTooltip = true"
+          (mouseleave)="showTooltip = false"
+        >
+          {{ element.profitToShare }}
+          <div
+            class="tooltip_profitToShare"
+            *ngIf="
+              showTooltip && element.installmentData.profitToShareInfo != null
+            "
+          >
+            {{ element.installmentData.profitToShareInfo }}
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="transfer">
+        <th mat-header-cell *matHeaderCellDef>Transfer</th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [ngClass]="{
+            'text-danger': element.installmentData.profitToShareInfo != null,
+            'text-success': element.installmentData.profitToShareInfo == null
+          }"
+          (mouseenter)="showTooltip = true"
+          (mouseleave)="showTooltip = false"
+        >
+          {{ element.transfer }}
+          <div
+            class="tooltip_profitToShare"
+            *ngIf="
+              showTooltip && element.installmentData.profitToShareInfo != null
+            "
+          >
+            {{ element.installmentData.profitToShareInfo }}
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsInstallments"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumnsInstallments"
+      ></tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 15, 20]"
+      showFirstLastButtons
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
+  </div>
+</div>

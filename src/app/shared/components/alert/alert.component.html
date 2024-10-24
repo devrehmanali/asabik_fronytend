@@ -1,0 +1,6 @@
+<ui-icon [type]="type == alertType.Success ? icon.Info : icon.Alert"></ui-icon>
+<p>{{ message }}</p>
+<ui-icon
+  (click)="isAccepted ? onClose() : acceptAlert()"
+  [type]="isAccepted ? icon.Ok : icon.Close"
+></ui-icon>

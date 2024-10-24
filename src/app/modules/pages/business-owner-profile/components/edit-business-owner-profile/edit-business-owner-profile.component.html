@@ -1,0 +1,108 @@
+<div class="container">
+  <!-- ------------------------------- HEADER -------------------------------- -->
+  <div class="header">
+    <div class="d-flex justify-content-between">
+      <h1>Profile</h1>
+      <div
+        *ngIf="!businessOwner?.isProfileComplete"
+        class="d-flex gap-2 text-warning"
+      >
+        <ui-icon [type]="icon.Alert"></ui-icon>
+        <p class="text-warning">Profile incomplete</p>
+      </div>
+      <div
+        *ngIf="businessOwner?.isProfileComplete"
+        class="d-flex gap-2 text-secondary"
+      >
+        <ui-icon [type]="icon.OpenEye"></ui-icon>
+        <p class="text-primary">Profile publically visible</p>
+      </div>
+      <ui-icon
+        role="button"
+        class="text-primary"
+        [type]="icon.Preview"
+        (click)="navigateToPreview()"
+      ></ui-icon>
+    </div>
+    <hr />
+  </div>
+  <hr />
+  <div class="content">
+    <section>
+      <h4>UPLOAD BUSINESS LOGO</h4>
+      <app-img-input
+        (fileChange)="onFileChange($event)"
+        [imgUrl]="businessOwner?.imgUrl"
+      ></app-img-input>
+    </section>
+    <section>
+      <form [formGroup]="form" class="form pt-4" (submit)="submitData()">
+        <hr class="text-disabled" />
+        <h4>COMPANY DATA</h4>
+        <app-input
+          formControlName="companyName"
+          class="mb-3"
+          label="Company name*"
+        ></app-input>
+        <app-input
+          formControlName="ownerName"
+          class="mb-3"
+          label="Owner's name*"
+        ></app-input>
+        <app-input
+          formControlName="street"
+          class="mb-3"
+          label="Street*"
+        ></app-input>
+        <app-input
+          formControlName="city"
+          class="mb-3"
+          label="City*"
+        ></app-input>
+        <app-input
+          formControlName="zipCode"
+          class="mb-3"
+          label="Zip code*"
+        ></app-input>
+        <app-input
+          formControlName="phone"
+          class="mb-3"
+          label="Business phone*"
+        ></app-input>
+        <app-input
+          formControlName="website"
+          class="mb-3"
+          label="Website"
+        ></app-input>
+        <app-input
+          formControlName="industry"
+          class="mb-3"
+          label="Industry"
+          [readonly]="true"
+        ></app-input>
+        <app-input
+          formControlName="subIndustry"
+          class="mb-3"
+          label="Sub industry"
+          [readonly]="true"
+        ></app-input>
+        <app-input
+          formControlName="description"
+          class="textarea mb-8"
+          label="Business description*"
+          placeholder="(500-2400 characters)"
+          (input)="onDescriptionChange('description')"
+          [type]="inputType.Textarea"
+        ></app-input>
+        <div class="char-count">{{ charCount1 }}/{{ maxLength }}</div>
+        <app-button
+          [type]="buttonType.Submit"
+          [disabled]="form.disabled"
+          [color]="buttonColor.Secondary"
+          class="mb-3"
+          >Save</app-button
+        >
+      </form>
+    </section>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+@use "sass:map";
+
+$gray-900: #0a1f44;
+$gray-800: #4e5d78;
+$gray-700: #8a94a6;
+$gray-600: #b0b7c3;
+
+$green-800: #00865a;
+$green-900: #006242;
+
+$text-colors: (
+  "dark": $gray-900,
+  "medium": $gray-800,
+  "light": $gray-700,
+  "disabled": $gray-600,
+) !default;
+
+$theme-colors: (
+  "primary": #163f7b,
+  "secondary": #fb9746,
+  "success": #0bb07b,
+  "info": #0284fe,
+  "warning": #ffad0d,
+  "danger": #f03d3d,
+  "disabled": #b0b7c3,
+  "light": #f5f6f7,
+  "dark": #0a1f44,
+  "black": #000000,
+  "white": #ffffff,
+) !default;
+
+$hr-color: map.get($text-colors, "light");

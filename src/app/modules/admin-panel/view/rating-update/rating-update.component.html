@@ -1,0 +1,56 @@
+<div class="head">
+  <h1 class="heading-bold">Rating Update</h1>
+</div>
+
+<div
+  *ngFor="
+    let year of [
+      yearOneRanges,
+      yearTwoRanges,
+      yearThreeRanges,
+      yearFourRanges,
+      yearFiveRanges
+    ];
+    let i = index
+  "
+  class="rating"
+>
+  <div class="rating__heading">
+    <h3 class="rating__heading_title">Year {{ i + 1 }}</h3>
+    <app-button
+      [color]="yearRanges['year' + (i + 1)].buttonColor"
+      [icon]="yearRanges['year' + (i + 1)].icon"
+      class="rating__heading_button"
+      (click)="updateRanges(i, year)"
+    >
+      Save
+    </app-button>
+  </div>
+  <div class="rating__border"></div>
+  <div *ngFor="let item of year; let j = index" class="rating__units">
+    <div class="rating__units_column">
+      <div class="rating__units_column_property">Rating</div>
+      <div class="rating__units_column_value">{{ item.rating || "None" }}</div>
+    </div>
+    <div class="rating__units_column">
+      <div class="rating__units_column_property">Low</div>
+      <input
+        class="rating__units_column_value"
+        type="number"
+        [(ngModel)]="year[j].low"
+        inputmode="numeric"
+        (wheel)="(false)"
+      />
+    </div>
+    <div class="rating__units_column">
+      <div class="rating__units_column_property">High</div>
+      <input
+        class="rating__units_column_value"
+        type="number"
+        [(ngModel)]="year[j].high"
+        inputmode="numeric"
+        (wheel)="(false)"
+      />
+    </div>
+  </div>
+</div>

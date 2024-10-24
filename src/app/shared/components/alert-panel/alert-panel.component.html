@@ -1,0 +1,6 @@
+<app-alert
+  *ngFor="let alert of alerts"
+  [type]="alert.type"
+  [message]="alert.message"
+  (close)="removeAlert(alert)"
+></app-alert>
